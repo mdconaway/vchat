@@ -1,0 +1,67 @@
+body {
+    position: relative;
+    width: 100%;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.terminal-area {
+    width: 100%;
+    overflow: visible;
+    position: relative;
+}
+
+.video-box {
+    width: 100%;    /*Always match container width*/
+    cursor: move;
+}
+
+.bounding-box {
+    width: 400px;   /*Default ratio 4:3*/
+    height: 300px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: absolute;
+}
+
+.bounding-box > .ui-resizable-se {
+    background-color: black;
+}
+
+.modal {
+    display: block;
+}
+
+.client-info {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.client-info-right {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+}
+
+.background-alpha-black {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.bad-input {
+    border-color: red;
+    border-width: 1px;
+    border-style: solid;
+}
+
+/*Bootstrap overrides*/
+.form-control:focus {
+  box-shadow: inset 0 0 4px 4px rgba(0, 0, 0, 0.175), 0 0 2px 2px rgba(0, 0, 0, 0.3);
+}

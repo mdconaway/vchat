@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Video Chat v0.0.1</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      if(typeof require === 'function') {
+        window.node_require = require;
+      }
+    </script>
+    {{content-for 'head'}}
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/vchat.css">
+
+    {{content-for 'head-footer'}}
+  </head>
+  <body>
+    {{content-for 'body'}}
+
+    <script src="assets/vendor.js"></script>
+    <script src="assets/vchat.js"></script>
+    <script>
+        if(typeof require === 'function')
+        {
+            window.amd_require = require;
+            window.require = function() {
+              try {
+                return amd_require.apply(null, arguments);
+              } catch (error) {
+                if(typeof node_require === 'function') {
+                  return node_require.apply(null, arguments);
+                }
+                else {
+                  console.error(error);
+                }    
+              }
+            }
+        }
+    </script>
+    {{content-for 'body-footer'}}
+  </body>
+</html>

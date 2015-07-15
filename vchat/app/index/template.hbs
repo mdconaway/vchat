@@ -1,0 +1,25 @@
+<div class="container-fluid">
+{{#if connected}}
+    {{end-call disconnect="disconnect"}}
+{{else}}
+    {{title-center}}
+    <div class="row"><div class="col-xs-12" style="height:100px"></div></div>
+    {{#if chooseMode}}
+        {{choose-mode hostCall="hostCall" joinCall="joinCall"}}
+    {{/if}}
+    {{#if joinCall}}
+        {{join-call connect="connect" choose="choose" joinAddress=joinAddress joinPort=joinPort}}
+    {{/if}}
+    {{#if hostCall}}
+        {{host-call host="host" choose="choose" hostPort=hostPort}}
+    {{/if}}
+{{/if}}
+</div>
+{{#if connected}}
+    {{client-info connectedTo=connectedTo hostMode=hostMode hostPort=hostPort}}
+{{/if}}
+<div class="terminal-area">
+{{#each el in src}}
+    {{video-terminal src=el}}
+{{/each}}
+</div>

@@ -1,0 +1,43 @@
+<div class="container-fluid client-info">
+    <div class="row">
+        <div class="col-xs-8 background-alpha-black">
+            Connected To: {{{connectedTo}}}
+        </div>
+        <div class="col-xs-4">
+        </div>
+    </div>
+    <div class="row">
+        {{#if hostMode}}
+            <div class="col-xs-4 background-alpha-black">
+                Hosting on Port: {{{hostPort}}}
+            </div>
+            <div class="col-xs-4 background-alpha-black">
+                External IP: {{{externalIp}}}
+            </div>
+        {{else}}
+            <div class="col-xs-8 background-alpha-black">
+                External IP: {{{externalIp}}}
+            </div>
+        {{/if}}
+        <div class="col-xs-4">
+        </div>
+    </div>
+</div>
+<div class="container-fluid client-info-right">
+    <div class="row">
+        <div class="col-xs-8">
+        </div>
+        <div class="col-xs-4 background-alpha-black">
+            Local IP Addresses:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+        </div>
+        <div class="col-xs-4 background-alpha-black">
+            {{#each ip in localAddresses}}
+                {{{ip}}}<br>
+            {{/each}}
+        </div>
+    </div>
+</div>
