@@ -17,9 +17,5 @@
 </div>
 {{#if connected}}
     {{client-info connectedTo=connectedTo hostMode=hostMode hostPort=hostPort}}
+    {{terminal-grid src=src}}
 {{/if}}
-<div class="terminal-area">
-{{#each el in src}}
-    {{video-terminal src=el}}
-{{/each}}
-</div>

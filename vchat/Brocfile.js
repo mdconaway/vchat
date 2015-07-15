@@ -39,9 +39,12 @@ else
 
 app.import('vendor/css/jquery-ui.min.css');
 app.import('vendor/css/bootstrap.min.css');
+app.import('vendor/css/gridster.css');
+app.import('vendor/css/ball-scale-ripple.css');
 
 app.import('vendor/lib/jquery-ui.js');
 app.import('vendor/lib/uri.js');
+app.import('vendor/lib/gridster.js');
 
 // Use `app.import` to add additional libraries to the generated
 // output files.

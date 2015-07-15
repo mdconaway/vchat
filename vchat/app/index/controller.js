@@ -18,12 +18,12 @@ export default Ember.Controller.extend({
     //Server/Client mode, view state booleans, and input values
     hostMode: false,
     hostCall: false,
-    hostPort: '9090',
+    hostPort: localStorage.hostPort || '9090',
     chooseMode: true,
     joinCall: false,
     connected: false,           //are we connected to a host?
-    joinAddress: 'http://localhost/',   //our target address, ip, or url
-    joinPort: '9090',           //our target port
+    joinAddress: localStorage.joinAddress || 'http://localhost/',   //our target address, ip, or url
+    joinPort: localStorage.joinPort || '9090',           //our target port
     connectedTo: 'unknown',
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
@@ -47,9 +47,14 @@ export default Ember.Controller.extend({
             this.showChooser();
         },
         connect: function(){
+            localStorage.joinAddress = this.get('joinAddress');
+            localStorage.joinPort = this.get('joinPort');
+            this.send('openModal', 'modal.waiting', 'Connecting...');
             this.connectServer(this.get('joinAddress'), this.get('joinPort'));
         },
         host: function(){
+            this.send('openModal', 'modal.waiting', 'Connecting...');
+            localStorage.hostPort = this.get('hostPort');
             this.set('chooseMode', false);
             this.set('joinCall', false);
             this.set('hostCall', false);
@@ -99,9 +104,56 @@ export default Ember.Controller.extend({
             this.showChooser();
         }
     },
+    findMinCoords: function(){
+        var maxx = 0;
+        var maxy = 0;
+        var srcs = this.get('src').toArray();
+        var matrix = [];
+        for(var x = 0; x < srcs.length; x++)
+        {
+            if(srcs[x].col > maxx)
+                maxx = srcs[x].col;
+            if(srcs[x].row > maxy)
+                maxy = srcs[x].row;
+        }
+        maxx = parseInt(maxx, 10);
+        maxy = parseInt(maxy, 10);
+        if(maxx > maxy)
+        {
+            maxy = maxx;
+        }
+        else
+        {
+            maxx = maxy;
+        }
+        for(var x = 0; x < maxx; x++)
+        {
+            matrix[x] = [];
+            for(var y = 0; y < maxy; y++)
+            {
+                matrix[x][y] = false;
+            }
+        }
+        for(var x = 0; x < srcs.length; x++)
+        {
+            matrix[parseInt(srcs[x].col, 10)-1][parseInt(srcs[x].row, 10)-1] = true;
+        }
+        for(var x = 0; x < maxx; x++)
+        {
+            for(var i = 0; i < x; i++)
+            {
+                if(!matrix[x][i])
+                    return {x: x+1, y: i+1};
+                if(!matrix[i][x])
+                    return {x: i+1, y: x+1};
+            }
+        }
+        return {x:1, y: maxy+1}
+    },
     //--------------------------------------------------------------------------
     addSource: function(id, src){
-        this.get('src').pushObject({id: id, src: src});
+        var coord = this.findMinCoords();
+        this.get('src').pushObject({col:coord.x, row:coord.y, sizex: 5, sizey: 5, id: id, src: src});
     },
     removeSource: function(id){
         var srcs = this.get('src').toArray();
@@ -133,7 +185,7 @@ export default Ember.Controller.extend({
         var self = this;
         var socket = this.get('socket');
         var peerConnections = this.get('peerConnections');
-        var iceConfig = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
+        var iceConfig = { 'iceServers': this.get('iceservers')};
         if (peerConnections[id]) {
             return peerConnections[id];
         }
@@ -222,9 +274,10 @@ export default Ember.Controller.extend({
         var socket = this.get('socket');
         socket.on('connect', function(){
             self.get('src').clear();
-            self.get('src').pushObject({id: 0, src: self.get('mySrc')});
+            self.addSource(0, self.get('mySrc'));
             self.set('connected', true);
             console.log('WebRTC connection established');
+            self.send('closeModal');
         });
         socket.on('connect_error', function(err){
             console.log('connection error!');
@@ -321,5 +374,6 @@ export default Ember.Controller.extend({
             }
         );
         //----------------------------------------------------------------------
+        console.log(this.get('iceservers'));
     }.on('init')
 });

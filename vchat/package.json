@@ -1,6 +1,6 @@
 {
   "name": "vchat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "An experimental video chat server/client hybrid",
   "private": true,
   "directories": {
@@ -47,7 +47,13 @@
   "main": "dist/index.html",
   "window": {
     "width": 960,
-    "height": 600
+    "height": 600,
+    "position": "center",
+    "transparent": false,
+    "frame": true,
+    "toolbar": false
   },
+  "chromium-args": "--ignore-certificate-errors --enable-webgl --ignore-gpu-blacklist --auth-schemes='digest,ntlm,negotiate,basic'",
+  "webkit": {"plugin": false },
   "single-instance": false
 }

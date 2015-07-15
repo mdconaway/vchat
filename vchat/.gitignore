@@ -8,6 +8,9 @@
 /node_modules
 /bower_components
 
+# built versions
+/build
+
 # misc
 /.sass-cache
 /connect.lock
