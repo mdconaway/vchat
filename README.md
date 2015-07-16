@@ -44,10 +44,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Running Tests
 
 * `ember nw:test`
-* This will build and test the app exclusively in node-webkit (NW.js).
+  * This will build and test the app exclusively in node-webkit (NW.js).
 
 * `ember nw:test --server`
-* This will build and test the app in node-webkit (NW.js) as well as in ember's server mode.
+  * This will build and test the app in node-webkit (NW.js) as well as in ember's server mode.
 
 ### Building
 
@@ -57,7 +57,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Deploying
 
 Running 'ember nw:package' will produce a standalone application within the build folder.
-Currently, builds are added to the folder using path '<version>/<os type>/<app>'.
+Currently, builds are added to the folder using path <version>/<os type>/<app>.
 
 ### Special Thanks
 * Ember.js Team [http://emberjs.com]
@@ -78,7 +78,7 @@ Currently, builds are added to the folder using path '<version>/<os type>/<app>'
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
 * STUN server to allow the app to run it's own NAT breakthrough
-* https://github.com/enobufs/stun
+  * https://github.com/enobufs/stun
 
 * For using the app without a private STUN server
   * http://stackoverflow.com/questions/20068944/webrtc-stun-stun-l-google-com19302
