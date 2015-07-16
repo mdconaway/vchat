@@ -66,7 +66,6 @@ export default Ember.Controller.extend({
             if(socket && socket.disconnect)
             {
                 socket.disconnect();
-                this.get('src').clear();
             }
         }
     },
@@ -89,6 +88,14 @@ export default Ember.Controller.extend({
     //--------------------------------------------------------------------------
     //The list of things to reset when our conversation has effectively ended
     handleEnd: function(){
+        var srcs = this.get('src').toArray();
+        for(var x = 0; x < srcs.length; x++)
+        {
+            if(srcs[x].id !== 0)
+            {
+                this.revokeObject(srcs[x].src);
+            }
+        }
         this.set('peerConnections', {});
         this.set('connected', false);
         this.set('socket', null);
@@ -156,22 +163,31 @@ export default Ember.Controller.extend({
         this.get('src').pushObject({col:coord.x, row:coord.y, sizex: 5, sizey: 5, id: id, src: src});
     },
     removeSource: function(id){
+        //just a note, we never need to worry about our own stream being passed
+        //in here.  The stream id passed in will always come from a socket event
         var srcs = this.get('src').toArray();
         for(var x = 0; x < srcs.length; x++)
         {
             if(id === srcs[x].id)
             {
                 this.get('src').removeAt(x);
+                this.revokeObject(srcs[x].src);
                 break;
             }
         }
+    },
+    revokeObject:function (objectUrl){
+        setTimeout(function(){
+            var url = window.URL;
+            url.revokeObjectURL(objectUrl);
+        }, 10);
     },
     //--------------------------------------------------------------------------
     //Handlers designed to shim the handling of a remote data stream to behave 
     //as a local object url (forwards to addSource and removeSource)
     addPeerStream: function(id, stream){
         var url = window.URL;
-        var src = url ? url.createObjectURL(stream) : stream;
+        var src = url.createObjectURL(stream);
         this.addSource(id, src);
     },
     removePeerStream: function(id){
@@ -273,7 +289,6 @@ export default Ember.Controller.extend({
         var self = this;
         var socket = this.get('socket');
         socket.on('connect', function(){
-            self.get('src').clear();
             self.addSource(0, self.get('mySrc'));
             self.set('connected', true);
             console.log('WebRTC connection established');
