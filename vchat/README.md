@@ -57,7 +57,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Deploying
 
 Running 'ember nw:package' will produce a standalone application within the build folder.
-Currently, builds are added to the folder using path <version>/<os type>/<app>.
+Currently, builds are added to the folder using path `<version>/<os type>/<app>`.
 
 ### Special Thanks
 * Ember.js Team [http://emberjs.com]
