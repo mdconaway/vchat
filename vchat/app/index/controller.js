@@ -22,7 +22,7 @@ export default Ember.Controller.extend({
     chooseMode: true,
     joinCall: false,
     connected: false,           //are we connected to a host?
-    joinAddress: localStorage.joinAddress || 'http://localhost/',   //our target address, ip, or url
+    joinAddress: localStorage.joinAddress || 'https://localhost/',   //our target address, ip, or url
     joinPort: localStorage.joinPort || '9090',           //our target port
     connectedTo: 'unknown',
     //--------------------------------------------------------------------------
@@ -325,12 +325,13 @@ export default Ember.Controller.extend({
         port = parseInt(port, 10);
         port = (isNaN(port) || port < 1) ? 9090 : port; 
         address = address.toLowerCase().trim();
-        address = address.length === 0 ? 'http://localhost/' : address;
+        address = address.length === 0 ? 'https://localhost/' : address;
         var client = this.get('socketIoClient');
         var socket = this.get('socket');
         var protocol = address.indexOf('http:') === 0 ? 'http:' : (address.indexOf('https:') === 0 ? 'https:' : (address.indexOf('ws:') === 0 ? 'ws:' : (address.indexOf('wss:') === 0 ? 'wss:' : null)));
-        var parser = URI((protocol === null ? 'http://' : '') + address);
+        var parser = URI((protocol === null ? 'https://' : '') + address);
         parser.port(port);
+        parser.protocol('https');
         if(socket)
         {
             socket.disconnect();
@@ -343,7 +344,8 @@ export default Ember.Controller.extend({
             port: port,
             transports: ['polling', 'websocket'],
             'force new connection': true,
-            reconnection: false
+            reconnection: false,
+            secure: true
         }));
         this.addHandlers();
         parser = null;
@@ -359,16 +361,8 @@ export default Ember.Controller.extend({
     setup: function(){
         var self = this;
         //----------------------------------------------------------------------
-        //edit this for public servers, or write a service to provide stun to others
-        //via our own internal node server
-        //----------------------------------------------------------------------
         this.set('socketIoClient', require('socket.io-client'));
         //----------------------------------------------------------------------
-        //Get our own stream for our use, and to front to others
-        //encapsulate this as an initializer that defers readines and then 
-        //stores the usable state of the computer based on having or not having
-        //a stream
-        
         //defer readiness
         window.navigator.getUserMedia(
             {
@@ -389,6 +383,5 @@ export default Ember.Controller.extend({
             }
         );
         //----------------------------------------------------------------------
-        console.log(this.get('iceservers'));
     }.on('init')
 });
