@@ -52,7 +52,7 @@
     "position": "center",
     "transparent": false,
     "frame": true,
-    "toolbar": false
+    "toolbar": true
   },
   "chromium-args": "--ignore-certificate-errors --enable-webgl --ignore-gpu-blacklist --auth-schemes='digest,ntlm,negotiate,basic'",
   "webkit": {"plugin": false },

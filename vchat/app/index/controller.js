@@ -160,7 +160,15 @@ export default Ember.Controller.extend({
     //--------------------------------------------------------------------------
     addSource: function(id, src){
         var coord = this.findMinCoords();
-        this.get('src').pushObject({col:coord.x, row:coord.y, sizex: 5, sizey: 5, id: id, src: src});
+        this.get('src').pushObject(Ember.Object.create({
+            col: coord.x, 
+            row: coord.y, 
+            sizex: 5, 
+            sizey: 5, 
+            id: id, 
+            src: src, 
+            volume: 0 === id ? 0 : 1    //we probably don't want to hear ourselves talk...
+        }));
     },
     removeSource: function(id){
         //just a note, we never need to worry about our own stream being passed
@@ -168,10 +176,10 @@ export default Ember.Controller.extend({
         var srcs = this.get('src').toArray();
         for(var x = 0; x < srcs.length; x++)
         {
-            if(id === srcs[x].id)
+            if(id === srcs[x].get('id'))
             {
                 this.get('src').removeAt(x);
-                this.revokeObject(srcs[x].src);
+                this.revokeObject(srcs[x].get('src'));
                 break;
             }
         }
