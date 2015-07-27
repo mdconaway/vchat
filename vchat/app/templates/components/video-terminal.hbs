@@ -1,2 +1,6 @@
 <video class="video-box"></video>
+{{#if src.isOwner}}
+    {{kick-button registerAs=kickButton kick="kick"}}
+{{/if}}
+{{snapshot-button registerAs=snapshotButton snapshot="snapshot"}}
 {{volume-slider src=src registerAs=volumeBar}}

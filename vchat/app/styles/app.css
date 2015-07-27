@@ -114,7 +114,86 @@ body {
     border-width: 12px;
 }
 
-/*Slider styles*/
+.pointer {
+    cursor: pointer;
+}
+
+.inset { 
+    text-shadow:#ccc 0px 1px 0, #777 0 -1px 0;
+}
+
+.tooltip {
+	position: absolute;
+        opacity: 1;
+	display: block;
+	height: 20px;
+	color: #fff;
+	text-align: center;
+	font-size: 10pt;
+	border-radius: 3px;
+	border: 1px solid #333;
+        -webkit-box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
+        box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: -moz-linear-gradient(top,  rgba(69,72,77,0.5) 0%, rgba(0,0,0,0.5) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,0.5)), color-stop(100%,rgba(0,0,0,0.5))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* IE10+ */
+	background: linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8045484d', endColorstr='#80000000',GradientType=0 ); /* IE6-9 */
+}
+
+.hidden {
+    display: none;
+}
+
+.thumbnail-viewer {
+    text-align: center;
+}
+
+.thumbnail-image {
+    width:400px;
+    height:300px;
+}
+
+/* Kick button styles */
+
+.kick-button {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #d9534f;
+    overflow:visible;
+}
+
+.kick-button .tooltip {
+    bottom: -20px;
+    left: 0px;
+    width: 70px;
+}
+
+/* End kick button styles */
+
+.snapshot-button {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 24px;
+    overflow:visible;
+}
+
+.snapshot-button .tooltip {
+    bottom: -20px;
+    right: 0px;
+    width: 90px;
+}
+
+/*Volume slider styles*/
 
 .gridster ul li section {
 	width: 140px;
@@ -143,29 +222,8 @@ body {
 }
 
 .gridster ul li section .tooltip {
-	position: absolute;
-        opacity: 1;
-	display: block;
 	bottom: 25px;
 	width: 35px;
-	height: 20px;
-	color: #fff;
-	text-align: center;
-	font-size: 10pt;
-	border-radius: 3px;
-	border: 1px solid #333;
-        -webkit-box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
-        box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	background: -moz-linear-gradient(top,  rgba(69,72,77,0.5) 0%, rgba(0,0,0,0.5) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,0.5)), color-stop(100%,rgba(0,0,0,0.5))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* IE10+ */
-	background: linear-gradient(top,  rgba(69,72,77,0.5) 0%,rgba(0,0,0,0.5) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8045484d', endColorstr='#80000000',GradientType=0 ); /* IE6-9 */
 }
 
 .gridster ul li section .volume {
@@ -211,7 +269,7 @@ body {
 	border-radius: 25px;
 }
 
-/*End slider styles*/
+/*End volume slider styles*/
 
 /*Bootstrap overrides*/
 .form-control:focus {

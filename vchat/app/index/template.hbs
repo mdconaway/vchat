@@ -17,5 +17,5 @@
 </div>
 {{#if connected}}
     {{client-info connectedTo=connectedTo hostMode=hostMode hostPort=hostPort}}
-    {{terminal-grid src=src}}
+    {{terminal-grid src=src snapshot="snapshot" close="close"}}
 {{/if}}

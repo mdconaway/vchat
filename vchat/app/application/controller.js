@@ -66,6 +66,12 @@ export default Ember.Controller.extend({
         for(var x = 0; x < sockets.length; x++)
             sockets[x].disconnect();
     },
+    disconnectSocket: function(el){
+        var sockets = this.findSockets();
+        for(var x = 0; x < sockets.length; x++)
+            if(el === sockets[x].id)
+                sockets[x].disconnect();
+    },
     findSockets: function(roomId, namespace){   //find all sockets in a place
         var res = []
         , ns = this.get('socketServer').of(namespace || "/");    // the default namespace is "/"

@@ -6,6 +6,9 @@ export default Ember.Route.extend({
         this.set('_controller', controller);
     },
     actions: {
+        disconnectSocket: function(el){
+            this.get('_controller').disconnectSocket(el);
+        },
         hostServer: function(port){
             this.get('_controller').listen(port);
         },

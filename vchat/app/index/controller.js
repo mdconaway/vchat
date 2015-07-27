@@ -9,6 +9,8 @@ export default Ember.Controller.extend({
     //Local media stream raw and url object
     stream: null,               //a raw stream object
     mySrc: null,                //an object url to our stream object
+    streamWidth: 960,
+    streamHeight: 720,
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
     //Sources array full of object url's and socket id's
@@ -33,6 +35,12 @@ export default Ember.Controller.extend({
     },
     //--------------------------------------------------------------------------
     actions: {
+        close: function(el){
+            this.send('openModal', 'modal.kick', el);
+        },
+        snapshot: function(blob){
+            this.send('openModal', 'modal.snapshot', blob)
+        },
         hostCall: function(){
             this.set('chooseMode', false);
             this.set('joinCall', false);
@@ -166,7 +174,8 @@ export default Ember.Controller.extend({
             sizex: 5, 
             sizey: 5, 
             id: id, 
-            src: src, 
+            src: src,
+            isOwner: 0 !== id && this.get('hostMode'),
             volume: 0 === id ? 0 : 1    //we probably don't want to hear ourselves talk...
         }));
     },
@@ -368,6 +377,8 @@ export default Ember.Controller.extend({
     //--------------------------------------------------------------------------
     setup: function(){
         var self = this;
+        var streamW = this.get('streamWidth');
+        var streamH = this.get('streamHeight');
         //----------------------------------------------------------------------
         this.set('socketIoClient', require('socket.io-client'));
         //----------------------------------------------------------------------
@@ -375,7 +386,14 @@ export default Ember.Controller.extend({
         window.navigator.getUserMedia(
             {
                 audio: true, 
-                video: true 
+                video: {
+                    mandatory: {
+                        "minWidth": streamW,
+                        "minHeight": streamH,
+                        "maxWidth": streamW,
+                        "maxHeight": streamH
+                    }
+                }
             },
             function(stream) {
                 var url = window.URL;

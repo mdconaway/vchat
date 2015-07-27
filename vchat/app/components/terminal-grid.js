@@ -6,6 +6,14 @@ export default Ember.Component.extend({
     gridster: null,
     disable: false,
     src: [],
+    actions: {
+        close: function(el){
+            this.sendAction('close', el);
+        },
+        snapshot: function(blob){
+            this.sendAction('snapshot', blob);
+        }
+    },
     didInsertElement : function () {
         Ember.run.scheduleOnce('afterRender', this, 'processChildElements');
     },
