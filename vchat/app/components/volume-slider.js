@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         var current = this.get('src').get('volume') * 100;
         
         tooltip.hide();
-
+        
         slider.slider({
             range: "min",
             min: 0,
@@ -48,7 +48,8 @@ export default Ember.Component.extend({
                 tooltip.stop().fadeOut('fast');
             }
         });
-        this.$().on('mousedown mouseup click', function(e){
+        tooltip.text(current+'').css('left', slider.slider('value'));
+        this.$().on('mousedown', function(e){
             e.stopPropagation();
         }); //dont let this events past or else we will cause the grid to drag too
     },
