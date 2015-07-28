@@ -7,10 +7,11 @@ export default Ember.Component.extend({
     videoReady: false,
     //--------------------------------------------------------------------------
     //external control components
-    controlNames: ["volumeBar", "kickButton", "snapshotButton"],
+    controlNames: ["volumeBar", "kickButton", "snapshotButton", "effectChooser"],
     volumeBar: null,
     kickButton: null,
     snapshotButton: null,
+    effectChooser: null,
     //--------------------------------------------------------------------------
     init: function() {
         this._super();
@@ -28,15 +29,33 @@ export default Ember.Component.extend({
         snapshot: function(){
             if(this.get('videoReady'))  //meta data must be loaded to snapshot
             {
+                var filters = this.get('filters');
+                var effect = this.get('src.effect');
                 var v = this.$().find('.video-box').first()[0];
                 var c = document.createElement('canvas');
                 var ctx = c.getContext('2d');
                 var w = v.videoWidth;
                 var h = v.videoHeight;
-                var url, imgData, data, buf;
+                var url, imgData, data, buf, pixels;
                 c.width = w;
                 c.height = h;
                 ctx.drawImage(v,0,0,w,h);
+                if(effect !== 'color')
+                {
+                    if(effect === 'grey')
+                    {
+                        pixels = filters.grayscale(filters.getPixels(c));
+                    }
+                    if(effect === 'sepia')
+                    {
+                        pixels = filters.sepia(filters.getPixels(c), 1.5);
+                    }
+                    if(effect === 'abstract')
+                    {
+                        pixels = filters.invert(filters.getPixels(c));
+                    }
+                    c = filters.toCanvas(pixels);
+                }
                 imgData = c.toDataURL('image/png');
                 data = imgData.replace(/^data:image\/\w+;base64,/, "");
                 buf = new Buffer(data, 'base64');
@@ -84,6 +103,7 @@ export default Ember.Component.extend({
         {
             var me = this.get('src');
             var v = this.$().find('.video-box').first();
+            v.addClass(me.get('effect'));
             v.prop('src', me.get('src'));//'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv');
             v[0].onloadedmetadata = function(e) {
                 v[0].play();
@@ -100,6 +120,15 @@ export default Ember.Component.extend({
     adjustVolume: function(){
         this.$().find('.video-box').first()[0].volume = this.get('src').get('volume');
     }.observes('src.volume'),
+    adjustEffect: function(){
+        var me = this.get('src');
+        var v = this.$().find('.video-box').first();
+        v.removeClass('color');
+        v.removeClass('grey');
+        v.removeClass('sepia');
+        v.removeClass('abstract');
+        v.addClass(me.get('effect'));
+    }.observes('src.effect'),
     _register: function() {
         this.set('registerAs', this); // register-as is a new property
     }.on('init')

@@ -175,6 +175,7 @@ export default Ember.Controller.extend({
             sizey: 5, 
             id: id, 
             src: src,
+            effect: 'color',
             isOwner: 0 !== id && this.get('hostMode'),
             volume: 0 === id ? 0 : 1    //we probably don't want to hear ourselves talk...
         }));

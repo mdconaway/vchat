@@ -2,6 +2,7 @@ import Ember from "ember";
 export default Ember.Component.extend({
     tagName: 'div',
     classNames: ['kick-button', 'pointer'],
+    registerAs: null,
     actions:{
         kick: function(){
             this.sendAction('kick');

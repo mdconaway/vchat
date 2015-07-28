@@ -159,6 +159,88 @@ body {
     height:300px;
 }
 
+/* Effect chooser styles */
+
+.effect-chooser {
+    position: absolute;
+    top: 36px;
+    right: 5px;
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
+    overflow:visible;
+}
+
+.effect-chooser .tooltip {
+    top: 2px;
+    left: -64px;
+    width: 60px;
+}
+
+.effect-icon {
+    height: 24px;
+    width: 24px;
+    margin-bottom: 5px;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #fff;
+    overflow: hidden;
+    position: relative;
+    opacity: 0.99;
+}
+
+.effect-icon-grey {
+    background: #000000; /* Old browsers */
+    background: -moz-linear-gradient(left,  #000000 0%, #eeeeee 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#000000), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #000000 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #000000 0%,#eeeeee 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #000000 0%,#eeeeee 100%); /* IE10+ */
+    background: linear-gradient(to right,  #000000 0%,#eeeeee 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#eeeeee',GradientType=1 ); /* IE6-9 */
+}
+
+.effect-icon-sepia {
+    background: #704214; /* Old browsers */
+    background: -moz-linear-gradient(left,  #BC8B5A 0%, #704214 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#BC8B5A), color-stop(100%,#704214)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #BC8B5A 0%,#704214 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #BC8B5A 0%,#704214 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #BC8B5A 0%,#704214 100%); /* IE10+ */
+    background: linear-gradient(to right,  #BC8B5A 0%,#704214 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BC8B5A', endColorstr='#704214',GradientType=1 ); /* IE6-9 */
+}
+
+.effect-icon-abstract {
+    background: #99CCFF; /* Old browsers */
+    background: -moz-linear-gradient(left,  #99CCFF 0%, #FF6699 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#99CCFF), color-stop(100%,#FF6699)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #99CCFF 0%,#FF6699 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #99CCFF 0%,#FF6699 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #99CCFF 0%,#FF6699 100%); /* IE10+ */
+    background: linear-gradient(to right,  #99CCFF 0%,#FF6699 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99CCFF', endColorstr='#FF6699',GradientType=1 ); /* IE6-9 */
+}
+
+.sepia {
+    -webkit-filter: sepia(1);
+}
+
+.grey {
+    -webkit-filter: grayscale(1);
+}
+
+.abstract {
+    -webkit-filter: contrast(1.1) invert(1);
+}
+
+.color {
+    -webkit-filter: none;
+}
+
+/* End effect chooser styles */
+
 /* Kick button styles */
 
 .kick-button {
@@ -179,6 +261,8 @@ body {
 
 /* End kick button styles */
 
+/* Snapshot button styles */
+
 .snapshot-button {
     position: absolute;
     top: 0px;
@@ -188,10 +272,12 @@ body {
 }
 
 .snapshot-button .tooltip {
-    bottom: -20px;
-    right: 0px;
+    bottom: 7px;
+    left: -94px;
     width: 90px;
 }
+
+/* End snapshot button styles */
 
 /*Volume slider styles*/
 
@@ -270,6 +356,114 @@ body {
 }
 
 /*End volume slider styles*/
+
+/* Color wheel styles */
+
+.wheel, .umbrella, .umbrella .color {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  width: 24px;
+  height: 24px;
+}
+
+.wheel {
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.umbrella {
+  position: relative;
+  -webkit-filter: blur(2px);
+  -webkit-transform: scale(1.35);
+}
+
+.umbrella .color, .umbrella .color:nth-child(n+7):after {
+  clip: rect(0, 24px, 24px, 12px);
+}
+
+.umbrella .color:after, .umbrella .color:nth-child(n+7) {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  width: 24px;
+  height: 24px;
+  clip: rect(0, 12px, 24px, 0);
+}
+
+.umbrella .color:nth-child(1):after {
+  background-color: #9ED110;
+  transform: rotate(30deg);
+  z-index: 12;
+}
+
+.umbrella .color:nth-child(2):after {
+  background-color: #50B517;
+  transform: rotate(60deg);
+  z-index: 11;
+}
+
+.umbrella .color:nth-child(3):after {
+  background-color: #179067;
+  transform: rotate(90deg);
+  z-index: 10;
+}
+
+.umbrella .color:nth-child(4):after {
+  background-color: #476EAF;
+  transform: rotate(120deg);
+  z-index: 9;
+}
+
+.umbrella .color:nth-child(5):after {
+  background-color: #9f49ac;
+  transform: rotate(150deg);
+  z-index: 8;
+}
+
+.umbrella .color:nth-child(6):after {
+  background-color: #CC42A2;
+  transform: rotate(180deg);
+  z-index: 7;
+}
+
+.umbrella .color:nth-child(7):after {
+  background-color: #FF3BA7;
+  transform: rotate(180deg);
+}
+
+.umbrella .color:nth-child(8):after {
+  background-color: #FF5800;
+  transform: rotate(210deg);
+}
+
+.umbrella .color:nth-child(9):after {
+  background-color: #FF8100;
+  transform: rotate(240deg);
+}
+
+.umbrella .color:nth-child(10):after {
+  background-color: #FEAC00;
+  transform: rotate(270deg);
+}
+
+.umbrella .color:nth-child(11):after {
+  background-color: #FFCC00;
+  transform: rotate(300deg);
+}
+
+.umbrella .color:nth-child(12):after {
+  background-color: #EDE604;
+  transform: rotate(330deg);
+}
+
+/* End color wheel styles */
 
 /*Bootstrap overrides*/
 .form-control:focus {
