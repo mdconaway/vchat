@@ -1,6 +1,6 @@
 module.exports = {
   appName: 'Video Chat',
-  platforms: ['osx64'],//, 'win64'],
+  platforms: ['osx64', 'win64'],
   macIcns: 'icons.icns',
   winIco: 'icon.ico',
   buildType: function() {
