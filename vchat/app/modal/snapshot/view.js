@@ -9,12 +9,13 @@ export default Ember.View.extend({
     },
     processChildElements: function (){
         var self = this;
+        var nodeModules = this.get('nodeModules');
         var controller = this.get('controller');
         var img = controller.get('model');
-        var fs = require('fs');
-        var path = require('path');
+        var fs = nodeModules.get('fs');
+        var path = nodeModules.get('path');
         var saver = this.$().find('.save-button').first();
-        saver.one('change', function (event) {
+        saver.one('change', function () {
             controller.send('openModal', 'modal.waiting', 'Saving...');
             var o = path.parse($(this).val());
             if(o.ext !== '')
@@ -25,14 +26,14 @@ export default Ember.View.extend({
             o.ext = '.png';
             fs.writeFile(path.format(o), img, function(err) {
                 if(err) {
-                    console.log(err);
+                    debug.error(err);
                 } else {
-                    console.log("The file was saved!");
+                    debug.debug("The file was saved!");
                 }
                 controller.send('closeModal');
             });
         });
-        this.$().find('.modal-submit').click(function(e){
+        this.$().find('.modal-submit').click(function(){
             saver.click();
         });
         setTimeout(function(){

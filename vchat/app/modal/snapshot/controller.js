@@ -21,7 +21,6 @@ export default Ember.Controller.extend({
     createThumbnail: function(){
         var self = this;
         var blob = this.toBlob(this.get('model'));
-        var image = document.getElementById('image');
         var reader = new FileReader();
         reader.onload = function(e) {
             self.set('thumbnail', e.target.result);

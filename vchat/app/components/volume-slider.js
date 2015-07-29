@@ -20,7 +20,7 @@ export default Ember.Component.extend({
             min: 0,
             max: 100,
             value: current,
-            start: function(event,ui) {
+            start: function() { //event,ui available if needed
                 tooltip.stop().fadeIn('fast');
             },
             slide: function(event, ui) {
@@ -42,9 +42,9 @@ export default Ember.Component.extend({
                 else 
                 {
                     volume.css('background-position', '0 -75px');
-                };
+                }
             },
-            stop: function(event,ui) {
+            stop: function() {  //event,ui available if needed
                 tooltip.stop().fadeOut('fast');
             }
         });

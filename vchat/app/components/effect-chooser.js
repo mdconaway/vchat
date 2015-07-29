@@ -23,7 +23,7 @@ export default Ember.Component.extend({
         var t1 = '2px';
         var t2 = '45px';
         
-        color.click(function(e){
+        color.click(function(){
             if(self.get('choose'))
             {
                 src.set('effect', 'color');
@@ -42,7 +42,7 @@ export default Ember.Component.extend({
                 self.set('choose', true);
             }
         });
-        grey.click(function(e){
+        grey.click(function(){
             if(self.get('choose'))
             {
                 src.set('effect', 'grey');
@@ -61,7 +61,7 @@ export default Ember.Component.extend({
                 self.set('choose', true);
             }
         });
-        sepia.click(function(e){
+        sepia.click(function(){
             if(self.get('choose'))
             {
                 src.set('effect', 'sepia');
@@ -80,7 +80,7 @@ export default Ember.Component.extend({
                 self.set('choose', true);
             }
         });
-        abstract.click(function(e){
+        abstract.click(function(){
             if(self.get('choose'))
             {
                 src.set('effect', 'abstract');

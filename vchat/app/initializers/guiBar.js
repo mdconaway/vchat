@@ -1,7 +1,7 @@
-export function initialize(registry, application) {
+export function initialize() {  //(registry, application) available if needed
     var gui = require('nw.gui');
     var menubar = new gui.Menu({ type: 'menubar' });
-    console.log(process.platform);
+    debug.debug(process.platform);
     if(process.platform == "darwin")
     {
         menubar.createMacBuiltin("Video Chat");

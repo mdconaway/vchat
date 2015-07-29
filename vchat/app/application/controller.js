@@ -9,11 +9,12 @@ export default Ember.Controller.extend({
     booting: true,  //temporary boolean to wait for ssl keys...
     setup: function(){
         var self = this;
-        var https = require('https');
-        var io = require('socket.io');
-        var pem = require('pem');
+        var nodeModules = this.get('nodeModules');
+        var https = nodeModules.get('https');
+        var Io = nodeModules.get('socketIo');
+        var pem = nodeModules.get('pem');
         //we can't do anything until we have ssl keys to host a call
-        pem.createCertificate({days:999, selfSigned:true}, function(err, keys){
+        pem.createCertificate({days:999, selfSigned: true}, function(err, keys){
             if(err)
             {
                 alert('OpenSSL is not available on this machine.  Please install OpenSSL and restart the application.');
@@ -23,7 +24,7 @@ export default Ember.Controller.extend({
             {
                 self.set('booting', false);
                 self.set('httpsServer', https.createServer({key: keys.serviceKey, cert: keys.certificate}));
-                self.set('socketServer', new io(self.get('httpsServer'), { 'transports': ['polling', 'websocket'], allowUpgrades: true, log: false }));
+                self.set('socketServer', new Io(self.get('httpsServer'), { 'transports': ['polling', 'websocket'], allowUpgrades: true, log: false }));
                 self.set('rootSpace',  self.get('socketServer').of("/"));
                 self.routeServer();
                 self.get('httpsServer').on('error', function(){
@@ -73,8 +74,8 @@ export default Ember.Controller.extend({
                 sockets[x].disconnect();
     },
     findSockets: function(roomId, namespace){   //find all sockets in a place
-        var res = []
-        , ns = this.get('socketServer').of(namespace || "/");    // the default namespace is "/"
+        var res = [];
+        var ns = this.get('socketServer').of(namespace || "/");    // the default namespace is "/"
 
         if (ns) {
             for (var id in ns.connected) {
@@ -97,14 +98,14 @@ export default Ember.Controller.extend({
         socketio.on('connection', function (socket) {
             
             socket.broadcast.emit('peerConnected', { id: socket.id });
-            console.log('Alerting peers of new client: ' + socket.id);
+            debug.debug('Alerting peers of new client: ' + socket.id);
             
             socket.on('webrtc', function (data) {
                 var tgt = self.get('rootSpace').connected[data.to];
                 if (tgt) {
                     data.by = socket.id;
-                    console.log('Redirecting message to: ' + data.to + ' from: ' + data.by);
-                    console.log('Message data: ' + JSON.stringify(data));
+                    debug.debug('Redirecting message to: ' + data.to + ' from: ' + data.by);
+                    debug.debug('Message data: ' + JSON.stringify(data));
                     tgt.emit('webrtc', data);
                 }
                 else
@@ -119,7 +120,7 @@ export default Ember.Controller.extend({
                 }
             });
             
-            console.log('Socket link established: ' + socket.id);
+            debug.debug('Socket link established: ' + socket.id);
         });
     }
 });

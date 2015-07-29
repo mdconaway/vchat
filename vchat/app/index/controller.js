@@ -1,8 +1,7 @@
 import Ember from "ember";
 export default Ember.Controller.extend({
     //--------------------------------------------------------------------------
-    //Socket IO library and instance variables
-    socketIoClient: null,       //our client socket library
+    //Socket IO instance variables
     socket: null,               //our current client socket
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
@@ -39,7 +38,7 @@ export default Ember.Controller.extend({
             this.send('openModal', 'modal.kick', el);
         },
         snapshot: function(blob){
-            this.send('openModal', 'modal.snapshot', blob)
+            this.send('openModal', 'modal.snapshot', blob);
         },
         hostCall: function(){
             this.set('chooseMode', false);
@@ -141,29 +140,29 @@ export default Ember.Controller.extend({
         {
             maxx = maxy;
         }
-        for(var x = 0; x < maxx; x++)
+        for(var a = 0; a < maxx; a++)
         {
-            matrix[x] = [];
+            matrix[a] = [];
             for(var y = 0; y < maxy; y++)
             {
-                matrix[x][y] = false;
+                matrix[a][y] = false;
             }
         }
-        for(var x = 0; x < srcs.length; x++)
+        for(var b = 0; b < srcs.length; b++)
         {
-            matrix[parseInt(srcs[x].col, 10)-1][parseInt(srcs[x].row, 10)-1] = true;
+            matrix[parseInt(srcs[b].col, 10)-1][parseInt(srcs[b].row, 10)-1] = true;
         }
-        for(var x = 0; x < maxx; x++)
+        for(var c = 0; c < maxx; c++)
         {
             for(var i = 0; i < x; i++)
             {
-                if(!matrix[x][i])
-                    return {x: x+1, y: i+1};
-                if(!matrix[i][x])
-                    return {x: i+1, y: x+1};
+                if(!matrix[c][i])
+                    return {x: c+1, y: i+1};
+                if(!matrix[i][c])
+                    return {x: i+1, y: c+1};
             }
         }
-        return {x:1, y: maxy+1}
+        return {x:1, y: maxy+1};
     },
     //--------------------------------------------------------------------------
     addSource: function(id, src){
@@ -232,7 +231,7 @@ export default Ember.Controller.extend({
         };
         //
         pc.onaddstream = function (evt) {
-            console.log('Received new stream');
+            debug.debug('Received new stream');
             self.addPeerStream(id, evt.stream);
         };
         this.set('peerConnections', peerConnections);
@@ -263,11 +262,11 @@ export default Ember.Controller.extend({
         pc.createOffer(
             function (sdp) {
                 pc.setLocalDescription(sdp);
-                console.log('Creating an offer for ' + id);
+                debug.debug('Creating an offer for ' + id);
                 socket.emit('webrtc', { to: id, sdp: sdp, type: 'sdp-offer' }); //by: currentId
             }, 
             function (e) {
-                console.log(e);
+                debug.error(e);
             },
             { mandatory: { OfferToReceiveVideo: true, OfferToReceiveAudio: true }}
         );
@@ -278,7 +277,7 @@ export default Ember.Controller.extend({
         switch (data.type) {
             case 'sdp-offer':
                 pc.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
-                    console.log('Setting remote description by offer' + data.sdp);
+                    debug.debug('Setting remote description by offer' + data.sdp);
                     pc.createAnswer(function (sdp) {
                         pc.setLocalDescription(sdp);
                         socket.emit('webrtc', { to: data.by, sdp: sdp, type: 'sdp-answer' }); //by: currentId, 
@@ -287,14 +286,14 @@ export default Ember.Controller.extend({
             break;
             case 'sdp-answer':
                 pc.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
-                    console.log('Setting remote description by answer' + data.sdp);
+                    debug.debug('Setting remote description by answer' + data.sdp);
                 }, function (e) {
                     console.error(e);
                 });
             break;
             case 'ice':
                 if (data.ice) {
-                    console.log('Adding ice candidates' + data.ice);
+                    debug.debug('Adding ice candidates' + data.ice);
                     pc.addIceCandidate(new RTCIceCandidate(data.ice));
                 }
             break;
@@ -309,27 +308,27 @@ export default Ember.Controller.extend({
         socket.on('connect', function(){
             self.addSource(0, self.get('mySrc'));
             self.set('connected', true);
-            console.log('WebRTC connection established');
+            debug.debug('WebRTC connection established');
             self.send('closeModal');
         });
         socket.on('connect_error', function(err){
-            console.log('connection error!');
-            console.log(err);
+            debug.error('connection error!');
+            debug.error(err);
             self.send('openModal', 'modal.alert', 'Unable to connect to: ' + self.get('connectedTo'));
             self.handleEnd();
         });
         socket.on('disconnect', function(){
-            console.log('socket disconnected.');
+            debug.debug('socket disconnected.');
             self.handleEnd();
         });
         socket.on('peerConnected', function (params) {
             self.makeOffer(params.id);
-            console.log('peer detected, offering stream!');
+            debug.debug('peer detected, offering stream!');
         });
         socket.on('peerDisconnected', function (data) {
             //goes to app route...
             self.removePeerConnection(data.id);
-            console.log('peer left, removing stream!');
+            debug.debug('peer left, removing stream!');
         });
         socket.on('webrtc', function (data) {
             self.handleNegotiation(data);
@@ -344,7 +343,7 @@ export default Ember.Controller.extend({
         port = (isNaN(port) || port < 1) ? 9090 : port; 
         address = address.toLowerCase().trim();
         address = address.length === 0 ? 'https://localhost/' : address;
-        var client = this.get('socketIoClient');
+        var client = this.get('nodeModules.socketIoClient');
         var socket = this.get('socket');
         var protocol = address.indexOf('http:') === 0 ? 'http:' : (address.indexOf('https:') === 0 ? 'https:' : (address.indexOf('ws:') === 0 ? 'ws:' : (address.indexOf('wss:') === 0 ? 'wss:' : null)));
         var parser = URI((protocol === null ? 'https://' : '') + address);
@@ -380,9 +379,6 @@ export default Ember.Controller.extend({
         var self = this;
         var streamW = this.get('streamWidth');
         var streamH = this.get('streamHeight');
-        //----------------------------------------------------------------------
-        this.set('socketIoClient', require('socket.io-client'));
-        //----------------------------------------------------------------------
         //defer readiness
         window.navigator.getUserMedia(
             {
@@ -405,6 +401,7 @@ export default Ember.Controller.extend({
             },
             function(error) {
                 alert('No camera/microphone!');
+                debug.error(error);
                 /* do something */ 
                 //advance readiness
             }

@@ -50,7 +50,7 @@ export function initialize(registry, application){
         return c;
       };
 
-      Filters.filterImage = function(filter, image, var_args) {
+      Filters.filterImage = function(filter, image) {   //var_args trimmed from args list
         var args = [this.getPixels(image)];
         for (var i=2; i<arguments.length; i++) {
           args.push(arguments[i]);
@@ -70,13 +70,13 @@ export function initialize(registry, application){
 
     } else {
 
-      onmessage = function(e) {
+      /*onmessage = function(e) {  //only commented out to negate the JSLine complaints
         var ds = e.data;
         if (!ds.length) {
           ds = [ds];
         }
         postMessage(Filters.runPipeline(ds));
-      };
+      };*/
 
       Filters.createImageData = function(w, h) {
         return {width: w, height: h, data: this.getFloat32Array(w*h*4)};
@@ -100,7 +100,7 @@ export function initialize(registry, application){
       return {width: w, height: h, data: this.getFloat32Array(w*h*4)};
     };
 
-    Filters.identity = function(pixels, args) {
+    Filters.identity = function(pixels) {   //args trimmed from arguments list
       var output = Filters.createImageData(pixels.width, pixels.height);
       var dst = output.data;
       var d = pixels.data;
@@ -148,7 +148,7 @@ export function initialize(registry, application){
       return output;
     };
 
-    Filters.luminance = function(pixels, args) {
+    Filters.luminance = function(pixels) {  //args trimmed from arguments list
       var output = Filters.createImageData(pixels.width, pixels.height);
       var dst = output.data;
       var d = pixels.data;
@@ -164,7 +164,7 @@ export function initialize(registry, application){
       return output;
     };
 
-    Filters.grayscale = function(pixels, args) {
+    Filters.grayscale = function(pixels) {  //args trimmed from arguments list
       var output = Filters.createImageData(pixels.width, pixels.height);
       var dst = output.data;
       var d = pixels.data;
@@ -185,7 +185,7 @@ export function initialize(registry, application){
       var grey = Filters.grayscale(pixels);
       var output = Filters.createImageData(pixels.width, pixels.height);
       var dst = output.data;
-      var d = pixels.data;
+      var d = grey.data;
       var sepiadepth = 20;
       var radd = parseInt(intensity*(2*sepiadepth));
       var gadd = parseInt(intensity*(sepiadepth));
@@ -200,7 +200,7 @@ export function initialize(registry, application){
     };
     //End sepia filter
 
-    Filters.grayscaleAvg = function(pixels, args) {
+    Filters.grayscaleAvg = function(pixels) {   //args removed from arguments list
       var output = Filters.createImageData(pixels.width, pixels.height);
       var dst = output.data;
       var d = pixels.data;
@@ -571,12 +571,12 @@ export function initialize(registry, application){
       diameter = Math.abs(diameter);
       if (diameter <= 1) return Filters.identity(pixels);
       var radius = diameter / 2;
-      var len = Math.ceil(diameter) + (1 - (Math.ceil(diameter) % 2))
+      var len = Math.ceil(diameter) + (1 - (Math.ceil(diameter) % 2));
       var weights = this.getFloat32Array(len);
       var rho = (radius+0.5) / 3;
       var rhoSq = rho*rho;
       var gaussianFactor = 1 / Math.sqrt(2*Math.PI*rhoSq);
-      var rhoFactor = -1 / (2*rho*rho)
+      var rhoFactor = -1 / (2*rho*rho);
       var wsum = 0;
       var middle = Math.floor(len/2);
       for (var i=0; i<len; i++) {
@@ -585,8 +585,8 @@ export function initialize(registry, application){
         weights[i] = gx;
         wsum += gx;
       }
-      for (var i=0; i<weights.length; i++) {
-        weights[i] /= wsum;
+      for (var a=0; a<weights.length; a++) {
+        weights[a] /= wsum;
       }
       return Filters.separableConvolve(pixels, weights, weights, false);
     };
@@ -672,7 +672,7 @@ export function initialize(registry, application){
       if (yamount == null) yamount = amount;
       var output = this.createImageData(pixels.width, pixels.height);
       var dst = output.data;
-      var d = pixels.data;
+      //var d = pixels.data;
       var px = this.createImageData(1,1).data;
       for (var y=0; y<output.height; y++) {
         var sy = -Math.sin(y/(output.height-1) * Math.PI*2);
@@ -818,9 +818,9 @@ export function initialize(registry, application){
           var dstOff = (y*w+x)*4;
           var srcOff = (sy*sw+sx)*4;
           var v = 0;
-          if (src[srcOff] == 0) {
-            if (src[(sy*sw+Math.max(0,sx-1))*4] == 0 && 
-                src[(Math.max(0,sy-1)*sw+sx)*4] == 0) {
+          if (src[srcOff] === 0) {
+            if (src[(sy*sw+Math.max(0,sx-1))*4] === 0 && 
+                src[(Math.max(0,sy-1)*sw+sx)*4] === 0) {
                 v = 255;
             }
           } else {
@@ -842,4 +842,4 @@ export function initialize(registry, application){
 export default {
     name: 'canvasFilters',
     initialize: initialize
-}
+};

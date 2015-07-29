@@ -36,7 +36,7 @@ export default Ember.Component.extend({
                 var ctx = c.getContext('2d');
                 var w = v.videoWidth;
                 var h = v.videoHeight;
-                var url, imgData, data, buf, pixels;
+                var imgData, data, buf, pixels;
                 c.width = w;
                 c.height = h;
                 ctx.drawImage(v,0,0,w,h);
@@ -105,7 +105,7 @@ export default Ember.Component.extend({
             var v = this.$().find('.video-box').first();
             v.addClass(me.get('effect'));
             v.prop('src', me.get('src'));//'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv');
-            v[0].onloadedmetadata = function(e) {
+            v[0].onloadedmetadata = function() {
                 v[0].play();
                 self.set('videoReady', true);
             };
