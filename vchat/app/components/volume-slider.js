@@ -12,7 +12,24 @@ export default Ember.Component.extend({
         var tooltip = this.$().find('.tooltip').first();
         var volume = this.$().find('.volume').first();
         var current = this.get('src').get('volume') * 100;
-        
+        var adjustVolume = function(value){
+            if(value <= 5) 
+            {
+                volume.css('background-position', '0 0');
+            } 
+            else if (value <= 25) 
+            {
+                volume.css('background-position', '0 -25px');
+            } 
+            else if (value <= 75) 
+            {
+                volume.css('background-position', '0 -50px');
+            } 
+            else 
+            {
+                volume.css('background-position', '0 -75px');
+            }
+        };
         tooltip.hide();
         
         slider.slider({
@@ -27,28 +44,14 @@ export default Ember.Component.extend({
                 var value  = slider.slider('value');
                 self.get('src').set('volume', ui.value / 100);
                 tooltip.css('left', value).text(ui.value);
-                if(value <= 5) 
-                {
-                    volume.css('background-position', '0 0');
-                } 
-                else if (value <= 25) 
-                {
-                    volume.css('background-position', '0 -25px');
-                } 
-                else if (value <= 75) 
-                {
-                    volume.css('background-position', '0 -50px');
-                } 
-                else 
-                {
-                    volume.css('background-position', '0 -75px');
-                }
+                adjustVolume(value);
             },
             stop: function() {  //event,ui available if needed
                 tooltip.stop().fadeOut('fast');
             }
         });
         tooltip.text(current+'').css('left', slider.slider('value'));
+        adjustVolume(slider.slider('value'));
         this.$().on('mousedown', function(e){
             e.stopPropagation();
         }); //dont let this events past or else we will cause the grid to drag too

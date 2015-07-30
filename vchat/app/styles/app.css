@@ -37,18 +37,44 @@ body {
     display: block;
 }
 
-.client-info {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
+.call-manager {
+    overflow: visible;
 }
 
-.client-info-right {
-    position: fixed;
-    bottom: 0px;
+.terminal-grid {
+}
+
+.client-info {
+    text-align: right;
+}
+
+.client-info-popup {
+    text-align: left;
+    position: absolute;
+    top: 39px;
     right: 0px;
-    width: 100%;
+    width: 400px;
+}
+
+.no-breakline {
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+}
+
+.red {
+    color: #d9534f;
+}
+
+.background-light-blue {
+    background-color: #4e5d6c;
+}
+
+.background-well-blue {
+    background-color: #485563;
 }
 
 .background-alpha-black {

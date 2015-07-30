@@ -1,43 +1,57 @@
-<div class="container-fluid client-info">
-    <div class="row">
-        <div class="col-xs-8 background-alpha-black">
-            Connected To: {{{connectedTo}}}
-        </div>
-        <div class="col-xs-4">
-        </div>
-    </div>
-    <div class="row">
-        {{#if hostMode}}
-            <div class="col-xs-4 background-alpha-black">
-                Hosting on Port: {{{hostPort}}}
+<button class="btn btn-default btn-block"><span class="glyphicon glyphicon-info-sign"></span></button>
+<div class="client-info-popup background-well-blue">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4">
+                <b>Connected To:</b>
             </div>
-            <div class="col-xs-4 background-alpha-black">
-                External IP: {{{externalIp}}}
+            <div class="col-xs-8 no-breakline overflow-ellipsis">
+                <span class="text-danger">{{{connectedTo}}}</span>
+            </div>
+        </div>
+        {{#if hostMode}}
+            <div class="row">
+                <div class="col-xs-4">
+                    <b>Host Port:</b>
+                </div>
+                <div class="col-xs-8 no-breakline overflow-ellipsis">
+                    <span class="text-danger">{{{hostPort}}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <b>External IP:</b>
+                </div>
+                <div class="col-xs-8 no-breakline overflow-ellipsis">
+                    <span class="text-danger">{{{externalIp}}}</span>
+                </div>
             </div>
         {{else}}
-            <div class="col-xs-8 background-alpha-black">
-                External IP: {{{externalIp}}}
+            <div class="row">
+                <div class="col-xs-4">
+                    <b>External IP:</b>
+                </div>
+                 <div class="col-xs-8 no-breakline overflow-ellipsis">
+                    <span class="text-danger">{{{externalIp}}}</span>
+                </div>
             </div>
         {{/if}}
-        <div class="col-xs-4">
+        <div class="row">
+            <div class="col-xs-4">
+                <b>Local IPs:</b>
+            </div>
+            <div class="col-xs-8">
+                <span class="text-danger no-breakline overflow-ellipsis">{{firstLocal}}</span>
+            </div>
         </div>
-    </div>
-</div>
-<div class="container-fluid client-info-right">
-    <div class="row">
-        <div class="col-xs-8">
-        </div>
-        <div class="col-xs-4 background-alpha-black">
-            Local IP Addresses:
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-8">
-        </div>
-        <div class="col-xs-4 background-alpha-black">
-            {{#each ip in localAddresses}}
-                {{{ip}}}<br>
-            {{/each}}
-        </div>
+        {{#each ip in localAddresses}}
+            <div class="row">
+                <div class="col-xs-4">
+                </div>
+                <div class="col-xs-8">
+                    <span class="text-danger no-breakline overflow-ellipsis">{{{ip}}}</span>
+                </div>
+            </div>
+        {{/each}} 
     </div>
 </div>

@@ -1,7 +1,7 @@
 import Ember from "ember";
 export default Ember.Component.extend({
     tagName: 'div',
-    classNames: ["gridster", "width100"],
+    classNames: ["gridster", "width100", "terminal-grid"],
     registerAs: null,
     gridster: null,
     disable: false,

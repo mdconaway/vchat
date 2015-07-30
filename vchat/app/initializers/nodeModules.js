@@ -1,8 +1,10 @@
 import Ember from "ember";
 export function initialize(registry, application) {
     var modules = Ember.Object.create({
+        externalIp: require('external-ip'),
         fs: require('fs'),
         https: require('https'),
+        os: require('os'),
         path: require('path'),
         pem: require('pem'),
         socketIo: require('socket.io'),

@@ -1,9 +1,8 @@
-<div class="container-fluid">
 {{#if connected}}
-    {{end-call disconnect="disconnect"}}
+    {{call-manager connectedTo=connectedTo hostMode=hostMode hostPort=hostPort disconnect="disconnect"}}
+    {{terminal-grid src=src snapshot="snapshot" close="close"}}
 {{else}}
     {{title-center}}
-    <div class="row"><div class="col-xs-12" style="height:100px"></div></div>
     {{#if chooseMode}}
         {{choose-mode hostCall="hostCall" joinCall="joinCall"}}
     {{/if}}
@@ -13,9 +12,4 @@
     {{#if hostCall}}
         {{host-call host="host" choose="choose" hostPort=hostPort}}
     {{/if}}
-{{/if}}
-</div>
-{{#if connected}}
-    {{client-info connectedTo=connectedTo hostMode=hostMode hostPort=hostPort}}
-    {{terminal-grid src=src snapshot="snapshot" close="close"}}
 {{/if}}

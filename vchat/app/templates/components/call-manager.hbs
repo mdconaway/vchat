@@ -1,0 +1,8 @@
+<div class="row background-light-blue">
+    <div class="col-xs-4 col-xs-offset-4">
+        <button class="btn btn-default btn-block" {{action "disconnect"}}><span class="glyphicon glyphicon-off red"></span></button>
+    </div>
+    <div class="col-xs-1 col-xs-offset-3">
+        {{client-info connectedTo=connectedTo hostMode=hostMode hostPort=hostPort}}
+    </div>
+</div>

@@ -49,6 +49,8 @@
   "window": {
     "width": 960,
     "height": 600,
+    "min_width": 960,
+    "min_height": 600,
     "position": "center",
     "transparent": false,
     "frame": true,
