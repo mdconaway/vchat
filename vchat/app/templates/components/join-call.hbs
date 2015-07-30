@@ -14,7 +14,8 @@
                     {{input-port type='text' class='form-control' value=joinPort}}
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-success btn-block" value="JOIN"/>
+                    <input type="submit" class="hidden" value="JOIN"/>
+                    <button class="btn btn-success btn-block" {{action "connect"}}><span class="glyphicon glyphicon-phone-alt"></span> JOIN</button>
                     <button class="btn btn-default btn-block" {{action "choose"}}>CANCEL</button>
                 </div>
             </fieldset>

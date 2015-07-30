@@ -1,6 +1,39 @@
+/*remove html{} and background:none on body to go back to regular background*/
+html {
+    width: 100%;
+    height: 100%;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2b3e50+0,3c4349+100 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2b3e50+0,474747+100 */
+    background: rgb(43,62,80); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(43,62,80,1) 0%, rgba(71,71,71,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(43,62,80,1)), color-stop(100%,rgba(71,71,71,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(43,62,80,1) 0%,rgba(71,71,71,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(43,62,80,1) 0%,rgba(71,71,71,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(43,62,80,1) 0%,rgba(71,71,71,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(43,62,80,1) 0%,rgba(71,71,71,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b3e50', endColorstr='#474747',GradientType=0 ); /* IE6-9 */
+}
+
 body {
     position: relative;
     width: 100%;
+    background: none;
+}
+
+.lean-in-left {
+    transform: perspective( 300px ) rotateY( 45deg ) translateX(20px);
+}
+
+.lean-in-right {
+    transform: perspective( 300px ) rotateY( -45deg ) translateX(-20px);
+}
+
+.drop-shadow {
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, .7);
+}
+
+.relative {
+    position: relative;
 }
 
 .align-center {
@@ -37,15 +70,23 @@ body {
     display: block;
 }
 
+.mode-button {
+    font-size: 34px;
+    padding: 60px 0px;
+}
+
 .call-manager {
     overflow: visible;
+    z-index: 2;
 }
 
 .terminal-grid {
+    z-index: 1;
 }
 
 .client-info {
     text-align: right;
+    position: relative;
 }
 
 .client-info-popup {

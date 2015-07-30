@@ -10,7 +10,8 @@
                     {{input-port type='text' class='form-control' value=hostPort}}
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary btn-block" value="HOST"/>
+                    <input type="submit" class="hidden" value="HOST"/>
+                    <button class="btn btn-primary btn-block" {{action "host"}}><span class="glyphicon glyphicon-home"></span> HOST</button>
                     <button class="btn btn-default btn-block" {{action "choose"}}>CANCEL</button>
                 </div>
             </fieldset>
