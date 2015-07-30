@@ -466,7 +466,7 @@
     var idCounter = 0;
     var uniqId = function() {
         return ++idCounter + '';
-    }
+    };
 
     /**
     * Basic drag implementation for DOM elements inside a container.
@@ -519,7 +519,6 @@
         this.$container.css('position', pos === 'static' ? 'relative' : pos);
         this.disabled = false;
         this.events();
-
         $(window).bind(this.nsEvent('resize'),
             throttle($.proxy(this.calculate_dimensions, this), 200));
     };
@@ -532,7 +531,7 @@
         this.pointer_events = {
             start: this.nsEvent('touchstart') + ' ' + this.nsEvent('mousedown'),
             move: this.nsEvent('touchmove') + ' ' + this.nsEvent('mousemove'),
-            end: this.nsEvent('touchend') + ' ' + this.nsEvent('mouseup'),
+            end: this.nsEvent('touchend') + ' ' + this.nsEvent('mouseup')
         };
 
         this.$container.on(this.nsEvent('selectstart'),
@@ -3983,7 +3982,10 @@
         if (this.drag_api) {
             this.drag_api.destroy();
         }
-
+        if(this.resize_api) {
+            this.resize_api.destroy();
+        }
+        
         this.remove_style_tags();
 
         remove && this.$el.remove();
