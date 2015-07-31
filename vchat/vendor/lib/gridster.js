@@ -2211,10 +2211,7 @@
         if(maintainAspect)
         {
             var ratio = this.resize_initial_sizex / this.resize_initial_sizey;
-            if(size_y > size_x)
-                size_x = size_y / ratio;
-            else
-                size_y = size_x / ratio;
+            size_y > size_x ? (size_x = size_y / ratio) : (size_y = size_x / ratio);
         }
         /*
          * End of edit
