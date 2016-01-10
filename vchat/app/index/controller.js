@@ -10,6 +10,10 @@ export default Ember.Controller.extend({
     mySrc: null,                //an object url to our stream object
     streamWidth: 960,
     streamHeight: 720,
+    midWidth: 640,
+    midHeight: 480,
+    smallWidth: 320,
+    smallHeight: 240,
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
     //Sources array full of object url's and socket id's
@@ -375,10 +379,25 @@ export default Ember.Controller.extend({
             this.connectRTC(addr, parseInt(port, 10));
     },
     //--------------------------------------------------------------------------
-    setup: function(){
+    setup: function(size){
         var self = this;
-        var streamW = this.get('streamWidth');
-        var streamH = this.get('streamHeight');
+        var streamW; 
+        var streamH; 
+        if(!size)
+        {
+            streamW = this.get('streamWidth');
+            streamH = this.get('streamHeight');
+        }
+        else if(size === 'M')
+        {
+            streamW = this.get('midWidth');
+            streamH = this.get('midHeight');
+        }
+        else if(size === 'S')
+        {
+            streamW = this.get('smallWidth');
+            streamH = this.get('smallHeight');
+        }
         //defer readiness
         window.navigator.getUserMedia(
             {
@@ -400,8 +419,21 @@ export default Ember.Controller.extend({
                 //advance readiness
             },
             function(error) {
-                alert('No camera/microphone!');
-                debug.error(error);
+                //
+                //alert(JSON.stringify(error));
+                debug.error(JSON.stringify(error));
+                if(!size)
+                {
+                    self.setup('M');
+                }
+                else if(size === 'M')
+                {
+                    self.setup('S');
+                }
+                else if(size === 'S')
+                {
+                    alert('No camera/microphone!');
+                }
                 /* do something */ 
                 //advance readiness
             }
