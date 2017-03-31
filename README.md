@@ -12,8 +12,6 @@ To Host: Simply click the "Host Conversation" button, and tell the app which por
 
 To Join: Simply click the "Join Conversation" button and dial-in to the host's external IP and listening port.
 
-* This application is stored for development within the NetBeans IDE.  All source code is within the vchat folder.
-
 ## Prerequisites
 
 You will need the following things properly installed on your computer to develop or build this application:
