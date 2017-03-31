@@ -1,0 +1,4 @@
+{{outlet}}
+{{#if showModal}}
+    {{component modalName model=modalContext controller=this openModal='openModal' closeModal='closeModal' disconnectSocket='disconnectSocket'}}
+{{/if}}

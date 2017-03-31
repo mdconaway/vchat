@@ -1,0 +1,21 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" {{action "close"}}><span class="glyphicon glyphicon-remove"></span></button>
+            <h4 class="modal-title">Save Snapshot</h4>
+            </div>
+            <div class="modal-body thumbnail-viewer">
+                {{#if thumbnail}}
+                    <img class="thumbnail-image" src={{thumbnail}}/>
+                {{/if}}
+                {{save-button nwsaveas=defaultFile}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-submit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade" {{action "close"}}>
+</div>
