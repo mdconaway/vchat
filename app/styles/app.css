@@ -95,6 +95,7 @@ body {
     top: 39px;
     right: 0px;
     width: 400px;
+    z-index: 2;
 }
 
 .no-breakline {

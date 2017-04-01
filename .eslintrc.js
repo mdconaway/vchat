@@ -11,8 +11,6 @@ module.exports = {
     jquery: true
   },
   globals: {
-    debug: true,
-    URI: true,
     ArrayBuffer: true,
     Uint8Array: true,
     Float32Array: true

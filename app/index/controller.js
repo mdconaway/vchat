@@ -1,7 +1,11 @@
 import Ember from "ember";
-const { Controller, on, run } = Ember;
+const { Controller, inject, on, run } = Ember;
 
 export default Controller.extend({
+    debug: inject.service(),
+    nodeModules: inject.service(),
+    settings: inject.service(),
+    uri: inject.service(),
     //--------------------------------------------------------------------------
     //Socket IO instance variables
     socket: null,               //our current client socket
@@ -225,8 +229,12 @@ export default Controller.extend({
     getPeerConnection: function(id){
         let socket = this.get('socket');
         let peerConnections = this.get('peerConnections');
-        let iceConfig = { 'iceServers': this.get('iceservers')};
-        if (peerConnections[id]) {
+        let debug = this.get('debug');
+        let iceConfig = { 
+            iceServers: this.get('settings').getIceServers()
+        };
+        if (peerConnections[id]) 
+        {
             return peerConnections[id];
         }
         let pc = new RTCPeerConnection(iceConfig);
@@ -263,6 +271,7 @@ export default Controller.extend({
     makeOffer: function(id) {
         let socket = this.get('socket');
         let pc = this.getPeerConnection(id);
+        let debug = this.get('debug');
         pc.createOffer(
             (sdp) => {
                 pc.setLocalDescription(sdp);
@@ -278,6 +287,7 @@ export default Controller.extend({
     handleNegotiation: function(data) {
         let socket = this.get('socket');
         let pc = this.getPeerConnection(data.by);
+        let debug = this.get('debug');
         switch (data.type) {
             case 'sdp-offer':
                 pc.setRemoteDescription(new RTCSessionDescription(data.sdp), () => {
@@ -308,6 +318,7 @@ export default Controller.extend({
     //Add our event routing to our signaling socket
     addHandlers: function(){
         let socket = this.get('socket');
+        let debug = this.get('debug');
         socket.on('connect', () => {
             this.addSource(0, this.get('mySrc'));
             this.set('connected', true);
@@ -346,12 +357,13 @@ export default Controller.extend({
         port = (isNaN(port) || port < 1) ? 9090 : port; 
         address = address.toLowerCase().trim();
         address = address.length === 0 ? 'https://localhost/' : address;
+        let URI = this.get('uri');
         let client = this.get('nodeModules.socketIoClient');
         let socket = this.get('socket');
         let protocol = address.indexOf('http:') === 0 ? 'http:' : (address.indexOf('https:') === 0 ? 'https:' : (address.indexOf('ws:') === 0 ? 'ws:' : (address.indexOf('wss:') === 0 ? 'wss:' : null)));
-        let parser = URI((protocol === null ? 'https://' : '') + address);
-        parser.port(port);
-        parser.protocol('https');
+        let parser = URI.parse((protocol === null ? 'https://' : '') + address);
+        parser.port = port;
+        parser.protocol = 'https';
         if(socket)
         {
             socket.disconnect();
@@ -359,8 +371,8 @@ export default Controller.extend({
         this.set('chooseMode', false);
         this.set('joinCall', false);
         this.set('hostCall', false);
-        this.set('connectedTo', parser.toString());
-        this.set('socket', client(parser.toString(), {
+        this.set('connectedTo', URI.serialize(parser));
+        this.set('socket', client(URI.serialize(parser), {
             port: port,
             transports: ['polling', 'websocket'],
             'force new connection': true,
@@ -368,7 +380,6 @@ export default Controller.extend({
             secure: true
         }));
         this.addHandlers();
-        parser = null;
     },
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
@@ -381,6 +392,7 @@ export default Controller.extend({
     },
     //--------------------------------------------------------------------------
     setup: on('init', function(size){
+        let debug = this.get('debug');
         let streamW; 
         let streamH; 
         if(!size)
@@ -414,12 +426,13 @@ export default Controller.extend({
             (stream) => {
                 let url = window.URL;
                 let src = url ? url.createObjectURL(stream) : stream;
-                debug.log(stream);
+                debug.debug(stream);
+                debug.debug(src);
                 this.set('stream', stream);
                 this.set('mySrc', src);
             },
             (error) => {
-                debug.error(JSON.stringify(error));
+                debug.error(error);
                 if(!size)
                 {
                     this.setup('M');

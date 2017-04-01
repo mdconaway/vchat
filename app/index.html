@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Video Chat v0.0.1</title>
+    <title>Video Chat v0.9.3</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
@@ -28,16 +28,19 @@
         {
             window.amd_require = require;
             window.require = function() {
-              try {
-                return amd_require.apply(null, arguments);
-              } catch (error) {
-                if(typeof node_require === 'function') {
-                  return node_require.apply(null, arguments);
+                try {
+                    return amd_require.apply(null, arguments);
+                } 
+                catch(error) {
+                    if(typeof node_require === 'function') 
+                    {
+                        return node_require.apply(null, arguments);
+                    }
+                    else 
+                    {
+                        throw error;
+                    }    
                 }
-                else {
-                  debug.error(error);
-                }    
-              }
             }
         }
     </script>

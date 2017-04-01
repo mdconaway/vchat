@@ -2,7 +2,9 @@ import Ember from "ember";
 const { Controller, inject, on, run } = Ember;
 
 export default Controller.extend({
+    debug: inject.service(),
     index: inject.controller(),
+    nodeModules: inject.service(),
     showModal: false,
     modalName: '',
     modalContext: {},
@@ -107,7 +109,8 @@ export default Controller.extend({
     },
     routeServer: function(){
         let socketio = this.get('socketServer');
-    
+        let debug = this.get('debug');
+        
         socketio.on('connection', (socket) => {
             
             socket.broadcast.emit('peerConnected', { id: socket.id });

@@ -57,34 +57,32 @@
 // methods will not be passed through if the logging level is set to 0 via
 // <debug.setLevel>.
 
-window.debug = (function(){
-  var window = this,
-    
+export default function(window){
     // Some convenient shortcuts.
-    aps = Array.prototype.slice,
-    con = window.console,
+    const aps = Array.prototype.slice;
+    const con = window.console;
     
     // Public object to be returned.
-    that = {},
+    let that = {};
     
-    callback_func,
-    callback_force,
+    let callback_func;
+    let callback_force;
     
     // Default logging level, show everything.
-    log_level = 9,
+    let log_level = 9;
     
     // Logging methods, in "priority order". Not all console implementations
     // will utilize these, but they will be used in the callback passed to
     // setCallback.
-    log_methods = [ 'error', 'warn', 'info', 'debug', 'log' ],
+    let log_methods = [ 'error', 'warn', 'info', 'debug', 'log' ];
     
     // Pass these methods through to the console if they exist, otherwise just
     // fail gracefully. These methods are provided for convenience.
-    pass_methods = 'assert clear count dir dirxml exception group groupCollapsed groupEnd profile profileEnd table time timeEnd trace'.split(' '),
-    idx = pass_methods.length,
-    caching = true,
+    let pass_methods = 'assert clear count dir dirxml exception group groupCollapsed groupEnd profile profileEnd table time timeEnd trace'.split(' ');
+    let idx = pass_methods.length;
+    let caching = true;
     // Logs are stored here so that they can be recalled as necessary.
-    logs = [];
+    let logs = [];
   
   while ( --idx >= 0 ) {
     (function( method ){
@@ -173,7 +171,7 @@ window.debug = (function(){
       //  object - (Object) Any valid JavaScript object.
       
       that[ level ] = function() {
-        var args = aps.call( arguments ),
+        let args = aps.call( arguments ),
           log_arr = [ level ].concat( args );
         if(caching){ logs.push( log_arr ); }
         exec_callback( log_arr );
@@ -193,7 +191,7 @@ window.debug = (function(){
     if ( callback_func && (callback_force || !con || !con.log) ) {
       callback_func.apply( window, args );
     }
-  };
+  }
   
   // Method: debug.setLevel
   // 
@@ -224,7 +222,7 @@ window.debug = (function(){
     return log_level > 0
       ? log_level > level
       : log_methods.length + log_level <= level;
-  };
+  }
   
   // Method: debug.setCallback
   // 
@@ -247,7 +245,7 @@ window.debug = (function(){
   //    to.
   
   that.setCallback = function() {
-    var args = aps.call( arguments ),
+    let args = aps.call( arguments ),
       max = logs.length,
       i = max;
     
@@ -270,4 +268,4 @@ window.debug = (function(){
   };
   
   return that;
-})();
+}

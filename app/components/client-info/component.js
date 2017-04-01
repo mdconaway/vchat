@@ -1,9 +1,10 @@
 import Ember from "ember";
-const { Component, run } = Ember;
+const { Component, inject, run } = Ember;
 
 export default Component.extend({
     tagName: 'div',
     classNames: ['client-info'],
+    nodeModules: inject.service(),
     registerAs: null,
     hostMode: false,
     hostPort: '9090',

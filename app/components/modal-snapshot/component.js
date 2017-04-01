@@ -1,8 +1,10 @@
 import Ember from "ember";
 import FadeIn from "vchat/mixins/fade-in";
-const { Component, run, on } = Ember;
+const { Component, inject, run, on } = Ember;
 
 export default Component.extend(FadeIn, {
+    debug: inject.service(),
+    nodeModules: inject.service(),
     defaultFile: "screenshot",
     thumbnail: null,
     didInsertElement: function(){
@@ -15,6 +17,7 @@ export default Component.extend(FadeIn, {
         let fs = nodeModules.get('fs');
         let path = nodeModules.get('path');
         let saver = this.$().find('.save-button').first();
+        let debug = this.get('debug');
         this.set('defaultFile', ('screenshot-' + new Date()));
         this.createThumbnail();
         saver.one('change', () => {

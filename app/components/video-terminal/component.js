@@ -1,9 +1,11 @@
 import Ember from "ember";
-const { Component, run } = Ember;
+const { Component, inject, run } = Ember;
 
 export default Component.extend({
     tagName: 'li',
     attributeBindings: ['data-sizex', 'data-sizey', 'data-col', 'data-row'],
+    debug: inject.service(),
+    filters: inject.service(),
     registerAs: null,
     src: null,
     videoReady: false,
@@ -46,17 +48,24 @@ export default Component.extend({
                 ctx.drawImage(v,0,0,w,h);
                 if(effect !== 'color')
                 {
-                    if(effect === 'grey')
+                    try
                     {
-                        pixels = filters.grayscale(filters.getPixels(c));
+                        if(effect === 'grey')
+                        {
+                            pixels = filters.grayscale(filters.getPixels(c));
+                        }
+                        if(effect === 'sepia')
+                        {
+                            pixels = filters.sepia(filters.getPixels(c), 1.5);
+                        }
+                        if(effect === 'abstract')
+                        {
+                            pixels = filters.invert(filters.getPixels(c));
+                        }
                     }
-                    if(effect === 'sepia')
+                    catch(error)
                     {
-                        pixels = filters.sepia(filters.getPixels(c), 1.5);
-                    }
-                    if(effect === 'abstract')
-                    {
-                        pixels = filters.invert(filters.getPixels(c));
+                        this.get('debug').error(error);
                     }
                     c = filters.toCanvas(pixels);
                 }
