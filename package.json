@@ -1,6 +1,6 @@
 {
   "name": "vchat",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "An experimental video chat server/client hybrid",
   "directories": {
     "doc": "doc",
