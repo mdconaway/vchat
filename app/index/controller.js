@@ -6,6 +6,7 @@ export default Controller.extend({
     media: inject.service(),
     settings: inject.service(),
     socketClient: inject.service(),
+    socketServer: inject.service(),
     uri: inject.service(),
     //--------------------------------------------------------------------------
     //Sources array full of object url's and socket id's
@@ -113,7 +114,7 @@ export default Controller.extend({
                     hostCall: false,
                     hostMode: true
                 });
-                this.send('hostServer', parseInt(this.get('hostPort'), 10));
+                this.get('socketServer').listen(parseInt(this.get('hostPort'), 10));
             }
             else
             {
@@ -160,7 +161,7 @@ export default Controller.extend({
                 joinCall: false,
                 hostMode: false
             });
-            this.send('endHosting');
+            this.get('socketServer').stopListening();
         }
         else
         {

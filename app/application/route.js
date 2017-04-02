@@ -19,13 +19,6 @@ export default Route.extend({
         disconnectSocket: function(el){
             this.get('socketServer').disconnectSocket(el);
         },
-        hostServer: function(port){
-            this.controller.set('waiting', true);
-            this.get('socketServer').listen(port);
-        },
-        endHosting: function(){
-            this.get('socketServer').stopListening();
-        },
         openModal: function(modalName, model) {
             this.controller.setProperties({
                 showModal: true,
