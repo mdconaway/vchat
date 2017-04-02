@@ -22,9 +22,10 @@ export default Controller.extend({
     joinAddress: localStorage.joinAddress || 'https://localhost/',   //our target address, ip, or url
     joinPort: localStorage.joinPort || '9090',           //our target port
     //--------------------------------------------------------------------------
-    bindSocketClient: on('init', function(){
+    bindEvents: on('init', function(){
         let debug = this.get('debug');
         let socketClient = this.get('socketClient');
+        let socketServer = this.get('socketServer');
         let media = this.get('media');
         this.send('openModal', 'modal-waiting', 'Detecting Camera...');
         media.on('connect', () => {
@@ -64,6 +65,18 @@ export default Controller.extend({
         });
         socketClient.on('webrtc', (data) => {
             this.handleNegotiation(data);
+        });
+        socketServer.on('open', () => {
+            this.readyToHost();
+            debug.debug('socket server opened successfully');
+        });
+        socketServer.on('close', () => {
+            this.readyToCall();
+            debug.debug('socket server closed');
+        });
+        socketServer.on('error', (err) => {
+            this.send('openModal', 'modal-alert', err);
+            debug.debug('socket server had an error: ' + err);
         });
     }),
     actions: {
@@ -168,6 +181,8 @@ export default Controller.extend({
             this.showChooser();
         }
     },
+    //--------------------------------------------------------------------------
+    //Helper function to find an ideal place to insert a new video sqare in the grid
     findMinCoords: function(){
         let maxx = 0;
         let maxy = 0;
@@ -221,6 +236,8 @@ export default Controller.extend({
         return {x:1, y: maxy+1};
     },
     //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //Helper functions to manage source blobs
     addSource: function(id, src){
         let coord = this.findMinCoords();
         this.get('src').pushObject(Ember.Object.create({
@@ -250,6 +267,6 @@ export default Controller.extend({
             let url = window.URL;
             url.revokeObjectURL(objectUrl);
         });
-    },
+    }
     //--------------------------------------------------------------------------
 });

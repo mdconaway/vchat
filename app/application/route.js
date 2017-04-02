@@ -1,20 +1,8 @@
 import Ember from "ember";
-const { Route, inject, on } = Ember;
+const { Route, inject } = Ember;
 
 export default Route.extend({
     socketServer: inject.service(),
-    bindToServer: on('init', function(){
-        let socketServer = this.get('socketServer');
-        socketServer.on('open', () => {
-            this.controller.get('index').readyToHost();
-        });
-        socketServer.on('close', () => {
-            this.controller.get('index').readyToCall();
-        });
-        socketServer.on('error', (err) => {
-            this.send('openModal', 'modal-alert', err);
-        });
-    }),
     actions: {
         disconnectSocket: function(el){
             this.get('socketServer').disconnectSocket(el);
