@@ -41,12 +41,8 @@ export default Service.extend(Evented, {
                     this.routeServer();
                     httpsServer.on('error', () => {
                         this.set('listening', false);
-                        //eliminate send, find a way to propagate errors out of service
                         this.trigger('error', 'Unable to listen on port: ' + this.get('tryPort'));
-                        //eliminate all direct calls to index
                         this.trigger('close');
-                        //route close event to readyToCall in routes
-                        //this.get('index').readyToCall();
                     });
                     res();
                 }
@@ -78,10 +74,7 @@ export default Service.extend(Evented, {
     bindServer: function(){
         this.get('httpsServer').listen(this.get('tryPort'), () => {
             this.set('listening', true);
-            //use a promise??
-            //eliminate all direct calls to index
             this.trigger('open');
-            //this.get('index').readyToHost();
         });
     },
     stopListening: function(){
@@ -91,9 +84,7 @@ export default Service.extend(Evented, {
         {
             this.get('httpsServer').close(() => {
                 this.set('listening', false);
-                //eliminate all direct calls to index
                 this.trigger('close');
-                //this.get('index').readyToCall();
             });
         } 
         sockets.forEach((socket) => {
@@ -156,7 +147,8 @@ export default Service.extend(Evented, {
             });
 
             socket.on('disconnect', () => {
-                if (socket) {
+                if(socket) 
+                {
                     socket.broadcast.emit('peerDisconnected', { id: socket.id });
                 }
             });

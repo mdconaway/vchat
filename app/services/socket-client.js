@@ -50,11 +50,11 @@ export default Service.extend(Evented, {
         let pc = new RTCPeerConnection(iceConfig);
         peerConnections[id] = pc;
         pc.addStream(this.get('stream'));
-        //
+
         pc.onicecandidate = (evt) => {
             socket.emit('webrtc', { to: id, ice: evt.candidate, type: 'ice' });
         };
-        //
+
         pc.onaddstream = (evt) => {
             debug.debug('Received new stream');
             let url = window.URL;

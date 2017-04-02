@@ -27,6 +27,7 @@ export default Controller.extend({
         let socketClient = this.get('socketClient');
         let socketServer = this.get('socketServer');
         let media = this.get('media');
+        
         this.send('openModal', 'modal-waiting', 'Detecting Camera...');
         media.on('connect', () => {
             this.send('closeModal');
@@ -34,7 +35,6 @@ export default Controller.extend({
         media.on('error', (err) => {
             this.send('openModal', 'modal-alert', err);
         });
-        
         socketClient.on('connect', () => {
             this.addSource(0, this.get('media.mySrc'));
             debug.debug('WebRTC connection established');

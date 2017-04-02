@@ -1,10 +1,36 @@
 import Ember from 'ember';
 import defaultIceServers from '../util/defaultIceServers';
-const { Service } = Ember;
+const { A, isArray, Service } = Ember;
 
 export default Service.extend({
-    defaultIceServers: defaultIceServers,
+    //--------------------------------------------------------------------------
+    //ICE Server Settings
+    iceServers: localStorage.iceServers ? A(JSON.parse(localStorage.iceServers)).sortBy('url') : A(defaultIceServers).sortBy('url'),
+    resetIceServers: function(){
+        this.setIceServers(defaultIceServers);
+        return this.getIceServers();
+    },
     getIceServers: function(){
-        return this.get('defaultIceServers');
+        return this.get('iceServers');
+    },
+    setIceServers: function(servers){
+        let isValid = true;
+        if(isArray(servers))
+        {
+            servers = A(servers);
+            servers.toArray().forEach((server) => {
+                if(typeof server.url !== 'string')
+                {
+                    isValid = false;
+                }
+            });
+            if(isValid)
+            {
+                servers = servers.sortBy('url');
+                this.set('iceServers', servers);
+                localStorage.iceServers = JSON.stringify(servers.toArray());
+            }
+        }
     }
+    //--------------------------------------------------------------------------
 });

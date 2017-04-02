@@ -17,7 +17,76 @@ html {
 body {
     position: relative;
     width: 100%;
+    height: 100%;
     background: none;
+}
+
+body > .ember-view {
+    width: 100%;
+    height: 100%;
+}
+
+.bodywrap-widget {
+    overflow: auto;
+}
+
+.app-settings {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    font-size: 30px;
+}
+
+.app-settings a {
+    color: white;
+}
+
+.sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+}
+
+.sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+}
+
+.sidebar-nav .navbar li {
+    float: none;
+    display: block;
+}
+
+.sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.settings-menu {
+    width: 20%;
+    height: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+}
+
+.settings-menu a {
+    font-size: 22px;
+}
+
+.settings-window {
+    width: 80%;
+    height: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.server-table thead tr th:first-child,
+.server-table tbody tr td:first-child {
+    padding-left: 20px;
 }
 
 .lean-in-left {
@@ -133,6 +202,10 @@ body {
     width:100%;
 }
 
+.height100 {
+    height: 100%;
+}
+
 .gridster ul li {
     overflow: hidden;
     background-color: rgba(0,0,0,0.2);
@@ -192,7 +265,7 @@ body {
 
 .tooltip {
 	position: absolute;
-        opacity: 1;
+    opacity: 1;
 	display: block;
 	height: 20px;
 	color: #fff;
@@ -200,8 +273,8 @@ body {
 	font-size: 10pt;
 	border-radius: 3px;
 	border: 1px solid #333;
-        -webkit-box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
-        box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
+    -webkit-box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
+    box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, .3);
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -352,11 +425,11 @@ body {
 .gridster ul li section {
 	width: 140px;
 	height: 25px;
-        margin: 0px;
+    margin: 0px;
 	position: absolute;
-        bottom: 0px;
-        left: 0px;
-        overflow: visible;
+    bottom: 0px;
+    left: 0px;
+    overflow: visible;
 }
 
 .gridster ul li section .slider{
@@ -369,10 +442,10 @@ body {
 	height: 13px;
 	background-color: #8e8d8d;
 	background: url('../img/bg-track.png') repeat top left;
-        box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), 
+    box-shadow: inset 0 1px 5px 0px rgba(0, 0, 0, .5), 
     				  0 1px 0 0px rgba(250, 250, 250, .5);
-        left: 10px;
-        bottom: 5px;
+    left: 10px;
+    bottom: 5px;
 }
 
 .gridster ul li section .tooltip {
@@ -386,7 +459,7 @@ body {
 	width: 25px;
 	height: 25px;
 	right: -5px;
-        bottom: 0px;
+    bottom: 0px;
 	background: url('../img/volume.png') no-repeat 0 -50px;
 	position: absolute;
 	margin-top: -5px;
@@ -402,7 +475,7 @@ body {
 	font-weight: bold;
 	color: #1C94C4;
 	outline: none;
-        border: none;
+    border: none;
 	top: -7px;
 	margin-left: -12px;
 }

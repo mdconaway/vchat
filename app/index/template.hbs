@@ -3,6 +3,7 @@
     {{terminal-grid src=src snapshot="snapshot" close="close"}}
 {{else}}
     {{title-center}}
+    <div class="app-settings">{{#link-to 'settings' title='settings'}}<i class="glyphicon glyphicon-cog"></i>{{/link-to}}</div>
     {{#if chooseMode}}
         {{choose-mode hostCall="hostCall" joinCall="joinCall"}}
     {{/if}}
