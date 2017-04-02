@@ -34,12 +34,7 @@ export default Controller.extend({
         media.on('error', (err) => {
             this.send('openModal', 'modal-alert', err);
         });
-        socketClient.on('addSource', (id, src) => {
-            this.addSource(id, src);
-        });
-        socketClient.on('removeSource', (id) => {
-            this.removeSource(id);
-        });
+        
         socketClient.on('connect', () => {
             this.addSource(0, this.get('media.mySrc'));
             debug.debug('WebRTC connection established');
@@ -55,16 +50,13 @@ export default Controller.extend({
             debug.debug('socket disconnected.');
             this.handleEnd();
         });
-        socketClient.on('peerConnected', () => { //data
-            debug.debug('peer detected, offering stream!');
+        socketClient.on('addSource', (id, src) => {
+            this.addSource(id, src);
+            debug.debug('adding peer source, id:' + id);
         });
-        socketClient.on('peerDisconnected', (data) => {
-            //goes to app route...
-            this.removePeerConnection(data.id);
-            debug.debug('peer left, removing stream!');
-        });
-        socketClient.on('webrtc', (data) => {
-            this.handleNegotiation(data);
+        socketClient.on('removeSource', (id) => {
+            this.removeSource(id);
+            debug.debug('removing peer source, id:' + id);
         });
         socketServer.on('open', () => {
             this.readyToHost();

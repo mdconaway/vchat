@@ -33,19 +33,6 @@ export default Service.extend(Evented, {
         });
     },
     //--------------------------------------------------------------------------
-    //Handlers designed to shim the handling of a remote data stream to behave 
-    //as a local object url (forwards to addSource and removeSource)
-    addPeerStream: function(id, stream){
-        let url = window.URL;
-        let src = url.createObjectURL(stream);
-        this.trigger('addSource', id, src);
-        //this.addSource(id, src);
-    },
-    removePeerStream: function(id){
-        this.trigger('removeSource', id);
-        //this.removeSource(id);
-    },
-    //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
     //Handlers designed to setup, retrieve and remove a physical connection to 
     //a peer
@@ -70,7 +57,9 @@ export default Service.extend(Evented, {
         //
         pc.onaddstream = (evt) => {
             debug.debug('Received new stream');
-            this.addPeerStream(id, evt.stream);
+            let url = window.URL;
+            let src = url.createObjectURL(evt.stream);
+            this.trigger('addSource', id, src);
         };
         this.set('peerConnections', peerConnections);
         return pc;
@@ -84,7 +73,7 @@ export default Service.extend(Evented, {
                 delete peerConnections[id];
             }
         });
-        this.removePeerStream(id);
+        this.trigger('removeSource', id);
         this.set('peerConnections', peerConnections);
     },
     //--------------------------------------------------------------------------
