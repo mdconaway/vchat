@@ -6,7 +6,10 @@ let Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('settings', function() {});
+  this.route('settings', function() {
+    this.route('loading');
+    this.route('openssl');
+  });
 });
 
 export default Router;

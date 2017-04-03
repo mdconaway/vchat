@@ -1,0 +1,6 @@
+<input class="file-chooser" style="display:none;" type="file"/>
+{{input type='text' readonly=true value=value class='form-control' placeholder='OpenSSL Binary Path'}}
+<span class="input-group-btn">
+    <button class="btn btn-default" type="button" {{action 'findFile'}}>Choose File</button>
+</span>
+{{yield}}

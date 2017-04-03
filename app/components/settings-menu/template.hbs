@@ -2,11 +2,21 @@
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-collapse collapse sidebar-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li>
+                {{#link-to 'index' tagName='li'}}
                     {{#link-to 'index' class='width100'}}
                         Main Menu
                     {{/link-to}}
-                </li>
+                {{/link-to}}
+                {{#link-to 'settings.index' tagName='li'}}
+                    {{#link-to 'settings.index' class='width100'}}
+                        ICE Servers
+                    {{/link-to}}
+                {{/link-to}}
+                {{#link-to 'settings.openssl' tagName='li'}}
+                    {{#link-to 'settings.openssl' class='width100'}}
+                        OpenSSL
+                    {{/link-to}}
+                {{/link-to}}
             </ul>
         </div>
     </div>

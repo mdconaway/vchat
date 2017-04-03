@@ -9,6 +9,7 @@ const { Evented, RSVP, Service, inject } = Ember;
 export default Service.extend(Evented, {
     debug: inject.service(),
     nodeModules: inject.service(),
+    settings: inject.service(),
     httpsServer: null,
     socketServer: null,
     rootSpace: {},
@@ -20,12 +21,16 @@ export default Service.extend(Evented, {
         let https = nodeModules.get('https');
         let Io = nodeModules.get('socketIo');
         let pem = nodeModules.get('pem');
+        let openSSLPath = this.get('settings').getOpenSSLPath();
+        pem.config({
+            pathOpenSSL: openSSLPath ? openSSLPath : (process.env.OPENSSL_BIN || 'openssl')
+        });
         return new RSVP.Promise((res, rej) => {
             //we can't do anything until we have ssl keys to host a call
             pem.createCertificate({days:999, selfSigned: true}, (err, keys) => {
                 if(err)
                 {
-                    rej('OpenSSL is not available on this machine, but it is required to host a call.  Please install OpenSSL and modify your OpenSSL path in settings.\n\r' + err);
+                    rej('OpenSSL is not available on this machine or is misconfigured, but it is required to host a call.  Please install OpenSSL and modify your OpenSSL path in settings.<br><br>' + err);
                 }
                 else
                 {

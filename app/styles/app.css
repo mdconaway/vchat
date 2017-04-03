@@ -33,12 +33,12 @@ body > .ember-view {
 .app-settings {
     position: absolute;
     top: 0px;
-    left: 20px;
-    font-size: 30px;
+    left: 15px;
 }
 
-.app-settings a {
+.app-settings button {
     color: white;
+    font-size: 30px;
 }
 
 .sidebar-nav .navbar .navbar-collapse {

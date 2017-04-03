@@ -31,6 +31,17 @@ export default Service.extend({
                 localStorage.iceServers = JSON.stringify(servers.toArray());
             }
         }
+    },
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //OpenSSL Settings
+    openSSLPath: localStorage.openSSLPath ? localStorage.openSSLPath : '',
+    getOpenSSLPath: function(){
+        return this.get('openSSLPath');
+    },
+    setOpenSSLPath: function(s){
+        localStorage.openSSLPath = s;
+        this.set('openSSLPath', s);
     }
     //--------------------------------------------------------------------------
 });

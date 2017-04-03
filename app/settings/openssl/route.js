@@ -4,19 +4,20 @@ const { Route, RSVP, run, inject } = Ember;
 export default Route.extend({
     settings: inject.service(),
     model: function(){
-        //copy the array, and make it async so rendering can happen without freezing on the cog button
+        //copy the value, and make it async so loading can happen without freezing
         return new RSVP.Promise((res) => {
             run.later('afterRender', () => {
-                res(this.get('settings').getIceServers().concat([]));
+                res(this.get('settings').getOpenSSLPath());
             });
         });
     },
     actions: {
-        setServers: function(arr){
-            this.get('settings').setIceServers(arr);
+        setPath: function(s){
+            this.get('settings').setOpenSSLPath(s.trim());
+            this.refresh();
         },
-        resetServers: function(){
-            this.get('settings').resetIceServers();
+        resetPath: function(){
+            this.get('settings').setOpenSSLPath('');
             this.refresh();
         }
     }

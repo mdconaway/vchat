@@ -3,6 +3,7 @@ const { Evented, Service, inject } = Ember;
 
 export default Service.extend(Evented, {
     debug: inject.service(),
+    media: inject.service(),
     nodeModules: inject.service(),
     settings: inject.service(),
     uri: inject.service(),
@@ -49,7 +50,7 @@ export default Service.extend(Evented, {
         }
         let pc = new RTCPeerConnection(iceConfig);
         peerConnections[id] = pc;
-        pc.addStream(this.get('stream'));
+        pc.addStream(this.get('media.stream'));
 
         pc.onicecandidate = (evt) => {
             socket.emit('webrtc', { to: id, ice: evt.candidate, type: 'ice' });
