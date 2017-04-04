@@ -108,6 +108,9 @@ export default Service.extend(Evented, {
                     pc.createAnswer((sdp) => {
                         pc.setLocalDescription(sdp);
                         socket.emit('webrtc', { to: data.by, sdp: sdp, type: 'sdp-answer' }); //by: currentId, 
+                    },
+                    (e) => {
+                        debug.error(e);
                     });
                 });
             break;
