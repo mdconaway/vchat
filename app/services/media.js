@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { Evented, Service, inject, on } = Ember;
+const { Evented, RSVP, Service, inject } = Ember;
 
 export default Service.extend(Evented, {
     debug: inject.service(),
@@ -15,67 +15,83 @@ export default Service.extend(Evented, {
     smallHeight: 240,
     //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
-    setup: on('init', function(size){
+    getStream: function(size, promise, resolvers){
         let debug = this.get('debug');
         let streamW; 
-        let streamH; 
-        if(!size)
-        {
-            streamW = this.get('streamWidth');
-            streamH = this.get('streamHeight');
-        }
-        else if(size === 'M')
-        {
-            streamW = this.get('midWidth');
-            streamH = this.get('midHeight');
-        }
-        else if(size === 'S')
-        {
-            streamW = this.get('smallWidth');
-            streamH = this.get('smallHeight');
-        }
+        let streamH;
         //defer readiness
-        window.navigator.getUserMedia(
+        let myPromise = new RSVP.Promise((res, rej) => {
+            resolvers = resolvers ? resolvers : {res, rej};
+            promise = promise ? promise : myPromise;
+            if(!size)
             {
-                audio: true, 
-                video: {
-                    mandatory: {
-                        "minWidth": streamW,
-                        "minHeight": streamH,
-                        "maxWidth": streamW,
-                        "maxHeight": streamH
-                    }
-                }
-            },
-            (stream) => {
-                let url = window.URL;
-                let src = url ? url.createObjectURL(stream) : stream;
-                debug.debug(stream);
-                debug.debug(src);
-                this.setProperties({
-                    stream: stream,
-                    mySrc: src
-                });
-                this.trigger('connect');
-            },
-            (error) => {
-                debug.error(error);
-                if(!size)
-                {
-                    this.setup('M');
-                }
-                else if(size === 'M')
-                {
-                    this.setup('S');
-                }
-                else if(size === 'S')
-                {
-                    //If we hit this block, everything has failed. There is no hope.
-                    this.trigger('error', 'No camera/microphone!');
-                }
-                /* do something */
+                streamW = this.get('streamWidth');
+                streamH = this.get('streamHeight');
             }
-        );
+            else if(size === 'M')
+            {
+                streamW = this.get('midWidth');
+                streamH = this.get('midHeight');
+            }
+            else if(size === 'S')
+            {
+                streamW = this.get('smallWidth');
+                streamH = this.get('smallHeight');
+            }
+            window.navigator.getUserMedia(
+                {
+                    audio: true, 
+                    video: {
+                        mandatory: {
+                            "minWidth": streamW,
+                            "minHeight": streamH,
+                            "maxWidth": streamW,
+                            "maxHeight": streamH
+                        }
+                    }
+                },
+                (stream) => {
+                    let url = window.URL;
+                    let src = url ? url.createObjectURL(stream) : stream;
+                    debug.debug(stream);
+                    debug.debug(src);
+                    this.setProperties({
+                        stream: stream,
+                        mySrc: src
+                    });
+                    resolvers.res({stream, src});
+                },
+                (error) => {
+                    debug.error(error);
+                    if(!size)
+                    {
+                        this.getStream('M', promise, resolvers);
+                    }
+                    else if(size === 'M')
+                    {
+                        this.getStream('S', promise, resolvers);
+                    }
+                    else if(size === 'S')
+                    {
+                        //If we hit this block, everything has failed. There is no hope.
+                        resolvers.rej(new Error('No camera/microphone!'));
+                    }
+                    /* do something */
+                }
+            );
+        });
+        
+        return promise ? promise : myPromise;
         //----------------------------------------------------------------------
-    })
+    },
+    releaseStream: function(){
+        let stream = this.get('stream');
+        //let src = this.get('mySrc');
+        if(stream)
+        {
+            stream.getTracks().forEach((track) => {
+                track.stop();
+            });
+        }
+    }
 });

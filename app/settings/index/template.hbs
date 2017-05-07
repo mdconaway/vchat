@@ -14,7 +14,9 @@
                 <div class="input-group">
                     {{input type='text' enter='addServer' value=newServer class='form-control' placeholder='New ICE Server URL'}}
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" {{action 'addServer'}}>Add</button>
+                        <button class="btn btn-default" type="button" {{action 'addServer'}}>
+                            Add
+                        </button>
                     </span>
                 </div>
             </div>
@@ -35,7 +37,9 @@
                             {{server.url}}
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-danger" {{action 'removeServer' server}}><i class="glyphicon glyphicon-remove"></i></button>
+                            <button class="btn btn-sm btn-danger" {{action 'removeServer' server}}>
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
                         </td>
                     </tr>
                 {{/each}}

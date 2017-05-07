@@ -26,16 +26,9 @@ export default Controller.extend({
         let debug = this.get('debug');
         let socketClient = this.get('socketClient');
         let socketServer = this.get('socketServer');
-        let media = this.get('media');
-        
-        this.send('openModal', 'modal-waiting', 'Detecting Camera...');
-        media.on('connect', () => {
-            this.send('closeModal');
-        });
-        media.on('error', (err) => {
-            this.send('openModal', 'modal-alert', err);
-        });
+
         socketClient.on('connect', () => {
+            //Hook in our video feed as soon as we connect
             this.addSource(0, this.get('media.mySrc'));
             debug.debug('WebRTC connection established');
             this.send('closeModal');
@@ -96,21 +89,15 @@ export default Controller.extend({
             this.showChooser();
         },
         connect: function(){
-            if(this.get('media.mySrc'))
-            {
+            this.getMediaStream().then(() => {
                 localStorage.joinAddress = this.get('joinAddress');
                 localStorage.joinPort = this.get('joinPort');
                 this.send('openModal', 'modal-waiting', 'Connecting...');
                 this.get('socketClient').connectServer(this.get('joinAddress'), this.get('joinPort'));
-            }
-            else
-            {
-                this.send('openModal', 'modal-alert', 'This device does not have a camera and microphone.');
-            }
+            });
         },
         host: function(){
-            if(this.get('media.mySrc'))
-            {
+            this.getMediaStream().then(() => {
                 this.send('openModal', 'modal-waiting', 'Connecting...');
                 localStorage.hostPort = this.get('hostPort');
                 this.setProperties({
@@ -120,11 +107,7 @@ export default Controller.extend({
                     hostMode: true
                 });
                 this.get('socketServer').listen(parseInt(this.get('hostPort'), 10));
-            }
-            else
-            {
-                this.send('openModal', 'modal-alert', 'This device does not have a camera and microphone.');
-            }
+            });
         },
         disconnect: function(){
             this.get('socketClient').disconnect();
@@ -136,6 +119,16 @@ export default Controller.extend({
     readyToCall: function(){
         this.set('hostMode', false);
         this.handleEnd();
+    },
+    getMediaStream: function(){
+        let media = this.get('media');
+        this.send('openModal', 'modal-waiting', 'Detecting Camera...');
+        return media.getStream().then((results) => {
+            this.send('closeModal');
+            return results;
+        }).catch((e) => {
+            this.send('openModal', 'modal-alert', e);
+        });
     },
     //--------------------------------------------------------------------------
     //Wrapper to perform all maniuplations needed to show our host/join 
@@ -153,13 +146,11 @@ export default Controller.extend({
     handleEnd: function(){
         let srcs = this.get('src');
         srcs.forEach((src) => {
-            if(src.id !== 0)
-            {
-                this.revokeObject(src.src);
-            }
+            this.revokeObject(src.src);
         });
         this.get('src').clear();
         this.get('socketClient').disconnect();
+        this.get('media').releaseStream();
         if(this.get('hostMode'))
         {
             this.setProperties({

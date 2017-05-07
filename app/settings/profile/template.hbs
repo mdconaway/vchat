@@ -1,0 +1,24 @@
+{{#if model}}
+    {{profile-widget model=model action='forward'}}
+{{else}}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Log In
+            <button class="btn btn-sm btn-default" title="Information" {{action 'info'}}>
+                <i class="glyphicon glyphicon-question-sign"></i>
+            </button>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{input type='text' enter='login' value=username class='form-control' placeholder='Username...'}}
+                    {{input type='password' enter='login' value=password class='form-control' placeholder='Password...'}}
+                    <button class="btn btn-default width100" type="button" {{action 'login'}}>
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
+{{outlet}}

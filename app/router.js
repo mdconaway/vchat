@@ -9,6 +9,7 @@ Router.map(function() {
   this.route('settings', function() {
     this.route('loading');
     this.route('openssl');
+    this.route('profile');
   });
 });
 

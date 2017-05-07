@@ -18,7 +18,7 @@ export default Service.extend({
         if(isArray(servers))
         {
             servers = A(servers);
-            servers.toArray().forEach((server) => {
+            servers.forEach((server) => {
                 if(typeof server.url !== 'string')
                 {
                     isValid = false;
@@ -40,8 +40,9 @@ export default Service.extend({
         return this.get('openSSLPath');
     },
     setOpenSSLPath: function(s){
-        localStorage.openSSLPath = s;
-        this.set('openSSLPath', s);
+        let path = (s + '').trim();
+        localStorage.openSSLPath = path;
+        this.set('openSSLPath', path);
     }
     //--------------------------------------------------------------------------
 });

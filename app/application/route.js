@@ -1,5 +1,5 @@
 import Ember from "ember";
-const { Route, inject } = Ember;
+const { Route,  inject } = Ember;
 
 export default Route.extend({
     socketServer: inject.service(),

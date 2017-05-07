@@ -1,0 +1,31 @@
+<div class="panel-heading">
+    Profile 
+    <button class="btn btn-sm btn-default" title="Information" {{action 'info'}}>
+        <i class="glyphicon glyphicon-question-sign"></i>
+    </button>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label>User Name</label>
+        {{input type='text' enter='submit' value=model.username class='form-control' placeholder='User Name...'}}
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        {{input type='text' enter='submit' value=model.name class='form-control' placeholder='Name...'}}
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        {{input type='email' enter='submit' value=model.email class='form-control' placeholder='E-mail...'}}
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        {{input type='password' enter='submit' value=model.password class='form-control' placeholder='Update Password...'}}
+    </div>
+    <button class='btn btn-primary' {{action 'submit'}}>
+        Update
+    </button>
+    <button class='btn btn-danger pull-right' {{action 'logout'}}>
+        Log Out
+    </button>
+</div>
+{{yield}}
