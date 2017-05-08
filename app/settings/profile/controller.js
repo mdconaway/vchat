@@ -1,5 +1,6 @@
 import Ember from 'ember';
 const { Controller } = Ember;
+const minReqs = '<p>Usernames must be at least 3 characters.</p><p>Passwords must be at least 6 characters.</p>';
 
 export default Controller.extend({
     username: '',
@@ -19,7 +20,7 @@ export default Controller.extend({
             }
             else
             {
-                this.send('openModal', 'modal-alert', '<p>Usernames must be at least 3 characters.</p><p>Passwords must be at least 6 characters.</p>');
+                this.send('openModal', 'modal-alert', minReqs);
             }
         },
         update: function(record){
@@ -40,7 +41,7 @@ export default Controller.extend({
             }
             else
             {
-                this.send('openModal', 'modal-alert', '<p>Usernames must be at least 3 characters.</p><p>Passwords must be at least 6 characters.</p>');
+                this.send('openModal', 'modal-alert', minReqs);
             }
         },
         forward: function(){
